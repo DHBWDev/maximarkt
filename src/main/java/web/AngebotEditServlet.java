@@ -151,7 +151,7 @@ public class AngebotEditServlet extends HttpServlet {
      * @param request HTTP-Anfrage
      * @return Zu bearbeitende Aufgabe
      */
-    private Angebot getRequestedTask(HttpServletRequest request) {
+    private Angebot getRequestedAngebot(HttpServletRequest request) {
         // Zunächst davon ausgehen, dass ein neuer Satz angelegt werden soll
         Angebot angebot = new Angebot();
         angebot.setOwner(this.userBean.getCurrentUser());
