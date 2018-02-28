@@ -49,12 +49,12 @@ public class UserServlet extends HttpServlet {
         if (session.getAttribute("user_form") == null) {
             // Keine Formulardaten mit fehlerhaften Daten in der Session,
             // daher Formulardaten aus dem Datenbankobjekt übernehmen
-            request.setAttribute("user_form", this.createTaskForm(user));
+            //request.setAttribute("user_form", this.createTaskForm(user));
         }
 
         // Anfrage an die JSP weiterleiten
-        request.getRequestDispatcher("/WEB-INF/app/task_edit.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/login/modify.jsp").forward(request, response);
 
-        session.removeAttribute("task_form");
+        //session.removeAttribute("task_form");
     }
 }
