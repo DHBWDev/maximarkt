@@ -39,17 +39,19 @@ public class AngebotListServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        String[] arten = {"Biete", "Suche"};
 
         // Verfügbare Kategorien und Stati für die Suchfelder ermitteln
         request.setAttribute("categories", this.categoryBean.findAllSorted());
-        request.setAttribute("statuses", TaskStatus.values());
+        request.setAttribute("arten", arten);
 
         // Suchparameter aus der URL auslesen
         String searchText = request.getParameter("search_text");
         String searchCategory = request.getParameter("search_category");
         String searchArt = request.getParameter("search_art");
         
-        String[] arten = {"Biete", "Suche"};
+        
         
         request.setAttribute("arten", arten);
         // Anzuzeigende Aufgaben suchen
