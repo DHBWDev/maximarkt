@@ -48,7 +48,10 @@ public class AngebotListServlet extends HttpServlet {
         String searchText = request.getParameter("search_text");
         String searchCategory = request.getParameter("search_category");
         String searchArt = request.getParameter("search_art");
-
+        
+        String[] arten = {"Biete", "Suche"};
+        
+        request.setAttribute("arten", arten);
         // Anzuzeigende Aufgaben suchen
         Category category = null;
         
@@ -60,9 +63,12 @@ public class AngebotListServlet extends HttpServlet {
                 category = null;
             }
         }
+        
+        
 
         List<Angebot> angebote = this.angebotBean.search(searchText, category, searchArt);
         request.setAttribute("angebote", angebote);
+        
 
         // Anfrage an die JSP weiterleiten
         request.getRequestDispatcher("/WEB-INF/app/angebot_list.jsp").forward(request, response);

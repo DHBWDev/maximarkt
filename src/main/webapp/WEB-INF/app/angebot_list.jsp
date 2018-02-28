@@ -24,7 +24,7 @@
 
     <jsp:attribute name="menu">
         <div class="menuitem">
-            <a href="<c:url value="/app/angebot/"/>">Angebot anlegen</a>
+            <a href="<c:url value="/app/angebote/new/"/>">Angebot anlegen</a>
         </div>
 
         <div class="menuitem">
@@ -54,7 +54,7 @@
             <select name="search_status">
                 <option value="">Alle Stati</option>
 
-                <c:forEach items="Biete" var="art">
+                <c:forEach items="${arten}" var="art">
                     <option value="${art}" ${param.search_art == status ? 'selected' : ''}>
                         <c:out value="${art}"/>
                     </option>
@@ -81,15 +81,17 @@
                         <tr>
                             <th>Bezeichnung</th>
                             <th>Kategorie</th>
-                            <th>Eigentümer</th>
-                            <th>Status</th>
-                            <th>Fällig am</th>
+                            <th>Benutzer</th>
+                            <th>Angebotstyp</th>
+                            <th>Preis</th>
+                            <th>Preistyp</th>
+                            <th>Datum</th>
                         </tr>
                     </thead>
                     <c:forEach items="${angebote}" var="angebot">
                         <tr>
                             <td>
-                                <a href="<c:url value="/app/task/${angebot.id}/"/>">
+                                <a href="<c:url value="/app/angebote/${angebot.id}/"/>">
                                     <c:out value="${angebot.titel}"/>
                                 </a>
                             </td>
@@ -103,7 +105,15 @@
                                 <c:out value="${angebot.art}"/>
                             </td>
                             <td>
-                                
+                                <c:out value="${angebot.preisVorstellung}"/>
+                            </td>
+                            <td>
+                                <c:out value="${angebot.artDesPreises}"/>
+                            </td>
+                            <td>
+                                <fmt:parseDate pattern="yyyy-MM-dd HH:mm:ss.SSS" value="${angebot.erstellungsDatum}" var="parsedDate" />
+                                <fmt:formatDate value="${parsedDate}" pattern="yyyy-MM-dd" />
+                                <c:out value="${parsedDate}"/>
                             </td>
                         </tr>
                     </c:forEach>
