@@ -36,7 +36,9 @@
                 <div class="column">
                     <%-- CSRF-Token --%>
                     <input type="hidden" name="csrf_token" value="${csrf_token}">
-
+                    
+                    <h2>Logindaten</h2>
+                    
                     <%-- Eingabefelder --%>
                     <label for="signup_username">
                         Benutzername:
@@ -62,6 +64,8 @@
                         <input type="password" name="signup_password2" value="${signup_form.values["signup_password2"][0]}">
                     </div>
                     
+                    <h2>Anschrift</h2>
+                    
                     <label for="signup_name">
                         Vor- und Nachname:
                         <span class="required">*</span>
@@ -86,6 +90,8 @@
                         <input type="plz" name="signup_plz" value="${signup_form.values["signup_plz"][0]}">
                         <input type="ort" name="signup_ort" value="${signup_form.values["signup_ort"][0]}">
                     </div>
+                    
+                    <h2>Kontaktdaten</h2>
                     
                     <label for="signup_email">
                         Emailadresse:

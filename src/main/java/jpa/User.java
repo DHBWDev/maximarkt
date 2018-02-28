@@ -80,14 +80,11 @@ public class User implements Serializable {
     List<Angebot> Angebote = new ArrayList<>();
 
     @NotNull(message = "Die Email darf nicht leer sein.")
-    //@Pattern(regexp = "^\\w+@\\w+\\..{2,3}(.{2,3})?$", message="Bitte geben Sie eine gültige Mailadresse an.")
-    //@Pattern(regexp = "^\\w+@\\w+\\..{2,3}(.{2,3})?$")
+    @Pattern(regexp = "^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$", message="Bitte geben Sie eine gültige Mailadresse an.")
     private String email = "";
     
     @NotNull(message = "Die Telefonnummer darf nicht leer sein.")
     private String telefonnummer = "";
-
-
 
     //<editor-fold defaultstate="collapsed" desc="Konstruktoren">
     public User() {

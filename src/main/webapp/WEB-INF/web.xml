@@ -62,9 +62,9 @@
     -->
     <security-role>
         <description>
-            Ein Benutzer der jTodo-Beispielanwendung. Jeder Benutzer muss
+            Ein Benutzer von MaxiMarkt. Jeder Benutzer muss
             mindestens diese Rolle besitzen, um sich einloggen und neue
-            Aufgaben anlegen zu können.
+            Angebote anlegen zu können.
         </description>
         <role-name>maximarkt-app-user</role-name>
     </security-role>
