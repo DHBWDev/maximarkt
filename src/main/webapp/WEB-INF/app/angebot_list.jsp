@@ -50,9 +50,9 @@
             <select name="search_status">
                 <option value="">Alle Stati</option>
 
-                <c:forEach items="${statuses}" var="status">
-                    <option value="${status}" ${param.search_status == status ? 'selected' : ''}>
-                        <c:out value="${status.label}"/>
+                <c:forEach items="Biete" var="art">
+                    <option value="${art}" ${param.search_art == status ? 'selected' : ''}>
+                        <c:out value="${art.label}"/>
                     </option>
                 </c:forEach>
             </select>
@@ -64,7 +64,7 @@
 
         <%-- Gefundene Aufgaben --%>
         <c:choose>
-            <c:when test="${empty tasks}">
+            <c:when test="${empty angebote}">
                 <p>
                     Es wurden keine Aufgaben gefunden. 🐈
                 </p>
@@ -82,11 +82,11 @@
                             <th>Fällig am</th>
                         </tr>
                     </thead>
-                    <c:forEach items="${tasks}" var="task">
+                    <c:forEach items="${angebote}" var="angebot">
                         <tr>
                             <td>
-                                <a href="<c:url value="/app/task/${task.id}/"/>">
-                                    <c:out value="${task.shortText}"/>
+                                <a href="<c:url value="/app/task/${angebot.id}/"/>">
+                                    <c:out value="${task.titel}"/>
                                 </a>
                             </td>
                             <td>
@@ -96,11 +96,10 @@
                                 <c:out value="${task.owner.username}"/>
                             </td>
                             <td>
-                                <c:out value="${task.status.label}"/>
+                                <c:out value="${task.art}"/>
                             </td>
                             <td>
-                                <c:out value="${utils.formatDate(task.dueDate)}"/>
-                                <c:out value="${utils.formatTime(task.dueTime)}"/>
+                                
                             </td>
                         </tr>
                     </c:forEach>
