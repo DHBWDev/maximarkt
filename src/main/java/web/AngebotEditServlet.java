@@ -75,9 +75,7 @@ public class AngebotEditServlet extends HttpServlet {
         //if (action == null) {
         //  action = "";
         //}
-        if (action == "save") {
             this.saveAngebot(request, response);
-        }
     }
 
     /**
@@ -90,51 +88,29 @@ public class AngebotEditServlet extends HttpServlet {
      */
     private void saveAngebot(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        // Eingaben prüfen
-        List<String> errors = new ArrayList<>();
-
-        String angebotKategorie = request.getParameter("angebot_kategorie");
+        
+        String angebotKategorie = request.getParameter("angebot_category");
         String angebotArt = request.getParameter("angebot_art");
         String angebotBezeichnung = request.getParameter("angebot_bezeichnung");
         String angebotBeschreibung = request.getParameter("angebot_beschreibung");
-        String angebotPreisArt = request.getParameter("angebot_preisart");
+       // String angebotPreisArt = request.getParameter("angebot_preisart");
         double angebotPreis = Double.parseDouble(request.getParameter("angebot_preis"));
         
-        Angebot angebot = new Angebot(this.userBean.getCurrentUser(), this.categoryBean.findById(1), "ARt", "Art", "blal", new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), 0, "", 0, "" );
-        
-        if (angebotKategorie != null && !angebotKategorie.trim().isEmpty()) {
-            try {
-                angebot.setCategory(this.categoryBean.findById(Long.parseLong(angebotKategorie)));
-            } catch (NumberFormatException ex) {
-                // Ungültige oder keine ID mitgegeben
-            }
-        }
-        
-        
-        
-        angebot.setErstellungsDatum(new Date(System.currentTimeMillis()));
-        angebot.setOnlineBis(new Date(System.currentTimeMillis()));
-        angebot.setOrt("Ort");
-        angebot.setPlz(2324);
-        angebot.setTitel("sdfdsfdsf");
-        angebot.setBeschreibung("sadsad");
-        angebot.setArt("Art");
-        angebot.setArtDesPreises("yosl");
-        angebot.setPreisVorstellung(545);
-        angebot.setOwner(this.userBean.getCurrentUser());
-        this.validationBean.validate(angebot, errors);
+        // Formulareingaben prüfen
+        List<String> errors = new ArrayList<>();
+ 
+        Angebot angebot = new Angebot(this.userBean.getCurrentUser(), null,angebotArt, angebotBezeichnung, angebotBeschreibung, null, null, angebotPreis, "dad", 0, "adada");
 
         // Datensatz speichern
-         if (errors.isEmpty()) {
-        this.angebotBean.saveNew(angebot);
-        System.out.println("jjdasojsd");
+        if (errors.isEmpty()) {
+            this.angebotBean.saveNew(angebot);
         }
-        
+
         // Weiter zur nächsten Seite
         if (errors.isEmpty()) {
             // Keine Fehler: Startseite aufrufen
-            response.sendRedirect(WebUtils.appUrl(request, "/app/angebot/"));
+            response.sendRedirect(WebUtils.appUrl(request, "/app/tasks/"));
+            
         } else {
             // Fehler: Formuler erneut anzeigen
             FormValues formValues = new FormValues();
@@ -142,11 +118,10 @@ public class AngebotEditServlet extends HttpServlet {
             formValues.setErrors(errors);
 
             HttpSession session = request.getSession();
-            session.setAttribute("angebot_form", formValues);
+            session.setAttribute("task_form", formValues);
 
             response.sendRedirect(request.getRequestURI());
         }
-        
     }
 
     /**

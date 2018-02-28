@@ -36,71 +36,71 @@
                     <input type="hidden" name="csrf_token" value="${csrf_token}">
 
                     <%-- Eingabefelder --%>
-                    <label for="signup_username">
+                    <label for="modify_username">
                         Benutzername:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="text" name="signup_username" value="${user.username}">
+                        <input type="text" name="modify_username" value="${user.username}">
                     </div>
                     
                     <h2>Anschrift</h2>
                     
-                    <label for="signup_name">
+                    <label for="modify_name">
                         Vor- und Nachname:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="name" name="signup_name" value="${signup_form.values["signup_name"][0]}">
+                        <input type="name" name="modify_name" value="${user.name}">
                     </div>
                     
-                    <label for="signup_anschrift">
+                    <label for="modify_anschrift">
                         Straße und Hausnummer:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="anschrift" name="signup_anschrift" value="${signup_form.values["signup_anschrift"][0]}">
+                            <input type="anschrift" name="modify_anschrift" value="${user.anschrift}">
                     </div>
                     
-                    <label for="signup_plz">
+                    <label for="modify_plz">
                         Postleitzahl und Ort:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="plz" name="signup_plz" value="${signup_form.values["signup_plz"][0]}">
-                        <input type="ort" name="signup_ort" value="${signup_form.values["signup_ort"][0]}">
+                        <input type="plz" name="modify_plz" value="${user.plz}">
+                        <input type="ort" name="modify_ort" value="${user.ort}">
                     </div>
                     
                     <h2>Kontaktdaten</h2>
                     
-                    <label for="signup_email">
+                    <label for="modify_email">
                         Emailadresse:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="email" name="signup_email" value="${signup_form.values["signup_email"][0]}">
+                        <input type="email" name="modify_email" value="${user.email}">
                     </div>
                     
-                    <label for="signup_telefonnummer">
+                    <label for="modify_telefonnummer">
                         Telefonnummer:
                         <span class="required">*</span>
                     </label>
                     <div class="side-by-side">
-                        <input type="telefonnummer" name="signup_telefonnummer" value="${signup_form.values["signup_telefonnummer"][0]}">
+                        <input type="telefonnummer" name="modify_telefonnummer" value="${user.telefonnummer}">
                     </div>
                     
                     <%-- Button zum Abschicken --%>
                     <div class="side-by-side">
                         <button class="icon-pencil" type="submit">
-                            Registrieren
+                            Speichern
                         </button>
                     </div>
                 </div>
 
                 <%-- Fehlermeldungen --%>
-                <c:if test="${!empty signup_form.errors}">
+                <c:if test="${!empty modify_form.errors}">
                     <ul class="errors">
-                        <c:forEach items="${signup_form.errors}" var="error">
+                        <c:forEach items="${modify_form.errors}" var="error">
                             <li>${error}</li>
                             </c:forEach>
                     </ul>

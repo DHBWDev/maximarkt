@@ -49,7 +49,7 @@
                         <option value="">Keine Kategorie</option>
 
                         <c:forEach items="${categories}" var="category">
-                            <option value="${category.id}" ${angebot_form.values["angebot_category"][0] == category.id ? 'selected' : ''}>
+                            <option value="${category.id}"${angebot_form.values["angebot_category"][0] == category.id ? 'selected' : ''}>
                                 <c:out value="${category.name}" />
                             </option>
                         </c:forEach>
@@ -67,18 +67,16 @@
 
                 </div>
 
-
-
                 <label for="angebot_bezeichnung">Bezeichnung:
                     <span class="required">*</span>
                 </label>
                 <div class="side-by-side">
-                    <input type="text" name="angebot_bezeichnung" >
+                    <input type="text" name="angebot_bezeichnung" value="${angebot_form.values["angebot_bezeichnung"][0]}">
                 </div>
 
                 <label for="angebot_beschreibung">Beschreibung:</label>
                 <div class="side-by-side">
-                    <textarea name="angebot_beschreibung"></textarea>
+                    <textarea name="angebot_beschreibung" value="${angebot_form.values["angebot_beschreibung"][0]}"></textarea>
                 </div>
 
                 <label for="angebot_preis">Preis</label>
@@ -88,7 +86,7 @@
                         <option>Verhandlungsbasis</option>
                         <option>Sonstiges</option>
                     </select>
-                    <input name="angebot_preis" type="number" value="0">
+                    <input name="angebot_preis" type="number" value="${angebot_form.values["angebot_preis"][0]}">
                 </div>
 
 
