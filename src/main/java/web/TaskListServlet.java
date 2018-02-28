@@ -10,9 +10,9 @@
 package web;
 
 import ejb.CategoryBean;
-import ejb.TaskBean;
+import ejb.AngebotBean;
 import jpa.Category;
-import jpa.Task;
+import jpa.Angebot;
 import jpa.TaskStatus;
 import java.io.IOException;
 import java.util.List;
@@ -34,7 +34,7 @@ public class TaskListServlet extends HttpServlet {
     private CategoryBean categoryBean;
     
     @EJB
-    private TaskBean taskBean;
+    private AngebotBean taskBean;
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -70,7 +70,7 @@ public class TaskListServlet extends HttpServlet {
 
         }
 
-        List<Task> tasks = this.taskBean.search(searchText, category, status);
+        List<Angebot> tasks = this.taskBean.search(searchText, category, status);
         request.setAttribute("tasks", tasks);
 
         // Anfrage an die JSP weiterleiten

@@ -10,10 +10,10 @@
 package web;
 
 import ejb.CategoryBean;
-import ejb.TaskBean;
+import ejb.AngebotBean;
 import ejb.UserBean;
 import ejb.ValidationBean;
-import jpa.Task;
+import jpa.Angebot;
 import jpa.TaskStatus;
 import java.io.IOException;
 import java.sql.Date;
@@ -37,7 +37,7 @@ import javax.servlet.http.HttpSession;
 public class TaskEditServlet extends HttpServlet {
 
     @EJB
-    TaskBean taskBean;
+    AngebotBean taskBean;
 
     @EJB
     CategoryBean categoryBean;
@@ -59,7 +59,7 @@ public class TaskEditServlet extends HttpServlet {
         // Zu bearbeitende Aufgabe einlesen
         HttpSession session = request.getSession();
 
-        Task task = this.getRequestedTask(request);
+        Angebot task = this.getRequestedTask(request);
         request.setAttribute("edit", task.getId() != 0);
                                 
         if (session.getAttribute("task_form") == null) {
@@ -118,7 +118,7 @@ public class TaskEditServlet extends HttpServlet {
         String taskShortText = request.getParameter("task_short_text");
         String taskLongText = request.getParameter("task_long_text");
 
-        Task task = this.getRequestedTask(request);
+        Angebot task = this.getRequestedTask(request);
 
         if (taskCategory != null && !taskCategory.trim().isEmpty()) {
             try {
@@ -188,7 +188,7 @@ public class TaskEditServlet extends HttpServlet {
             throws ServletException, IOException {
 
         // Datensatz löschen
-        Task task = this.getRequestedTask(request);
+        Angebot task = this.getRequestedTask(request);
         this.taskBean.delete(task);
 
         // Zurück zur Übersicht
@@ -203,9 +203,9 @@ public class TaskEditServlet extends HttpServlet {
      * @param request HTTP-Anfrage
      * @return Zu bearbeitende Aufgabe
      */
-    private Task getRequestedTask(HttpServletRequest request) {
+    private Angebot getRequestedTask(HttpServletRequest request) {
         // Zunächst davon ausgehen, dass ein neuer Satz angelegt werden soll
-        Task task = new Task();
+        Angebot task = new Angebot();
         task.setOwner(this.userBean.getCurrentUser());
         task.setDueDate(new Date(System.currentTimeMillis()));
         task.setDueTime(new Time(System.currentTimeMillis()));
@@ -243,7 +243,7 @@ public class TaskEditServlet extends HttpServlet {
      * @param task Die zu bearbeitende Aufgabe
      * @return Neues, gefülltes FormValues-Objekt
      */
-    private FormValues createTaskForm(Task task) {
+    private FormValues createTaskForm(Angebot task) {
         Map<String, String[]> values = new HashMap<>();
 
         values.put("task_owner", new String[]{
