@@ -66,7 +66,6 @@ public class Angebot implements Serializable {
     
     @ManyToOne
     private User user = null;
-    
 
     @ManyToOne
     private Category category = null;
