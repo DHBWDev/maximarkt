@@ -81,6 +81,7 @@ public class User implements Serializable {
     List<Angebot> tasks = new ArrayList<>();
 
     @NotNull(message = "Die Email darf nicht leer sein.")
+//    @Pattern(regexp = "^\\w+@\\w+\\..{2,3}(.{2,3})?$", message="Bitte geben Sie eine gültige Mailadresse an.")
     @Pattern(regexp = "^\\w+@\\w+\\..{2,3}(.{2,3})?$", message="Bitte geben Sie eine gültige Mailadresse an.")
     private String email = "";
     

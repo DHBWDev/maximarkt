@@ -28,13 +28,13 @@ import javax.servlet.http.HttpServletResponse;
  * zeigt.
  */
 @WebServlet(urlPatterns = {"/app/tasks/"})
-public class TaskListServlet extends HttpServlet {
+public class AngebotListServlet extends HttpServlet {
 
     @EJB
     private CategoryBean categoryBean;
     
     @EJB
-    private AngebotBean taskBean;
+    private AngebotBean angebotBean;
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -47,11 +47,11 @@ public class TaskListServlet extends HttpServlet {
         // Suchparameter aus der URL auslesen
         String searchText = request.getParameter("search_text");
         String searchCategory = request.getParameter("search_category");
-        String searchStatus = request.getParameter("search_status");
+        String searchArt = request.getParameter("search_art");
 
         // Anzuzeigende Aufgaben suchen
         Category category = null;
-        TaskStatus status = null;
+        
 
         if (searchCategory != null) {
             try {
@@ -61,17 +61,8 @@ public class TaskListServlet extends HttpServlet {
             }
         }
 
-        if (searchStatus != null) {
-            try {
-                status = TaskStatus.valueOf(searchStatus);
-            } catch (IllegalArgumentException ex) {
-                status = null;
-            }
-
-        }
-
-        List<Angebot> tasks = this.taskBean.search(searchText, category, status);
-        request.setAttribute("tasks", tasks);
+        List<Angebot> angebote = this.angebotBean.search(searchText, category, searchArt);
+        request.setAttribute("angebote", angebote);
 
         // Anfrage an die JSP weiterleiten
         request.getRequestDispatcher("/WEB-INF/app/task_list.jsp").forward(request, response);
