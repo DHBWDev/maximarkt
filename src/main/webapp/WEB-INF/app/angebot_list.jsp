@@ -52,7 +52,7 @@
 
                 <c:forEach items="Biete" var="art">
                     <option value="${art}" ${param.search_art == status ? 'selected' : ''}>
-                        <c:out value="${art.label}"/>
+                        <c:out value="${art}"/>
                     </option>
                 </c:forEach>
             </select>
