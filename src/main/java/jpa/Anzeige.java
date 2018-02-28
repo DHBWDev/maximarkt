@@ -5,7 +5,7 @@
  */
 package jpa;
 
-import jpa.Benutzer;
+import jpa.User;
 import jpa.Foto;
 import jpa.Kategorie;
 import java.io.Serializable;
@@ -41,10 +41,10 @@ public class Anzeige implements Serializable {
     private String ort = "";
 
     @ManyToOne
-    Benutzer releasedBenutzer = null;
+    User releasedBenutzer = null;
 
     @ManyToMany
-    List<Benutzer> noticedBenutzer = new ArrayList<>();
+    List<User> noticedBenutzer = new ArrayList<>();
 
     @OneToMany(mappedBy = "anzeige")
     List<Foto> fotos = new ArrayList<>();
@@ -110,11 +110,11 @@ public class Anzeige implements Serializable {
         this.ort = ort;
     }
 
-    public void setReleasedBenutzer(Benutzer releasedBenutzer) {
+    public void setReleasedBenutzer(User releasedBenutzer) {
         this.releasedBenutzer = releasedBenutzer;
     }
 
-    public void setNoticedBenutzer(List<Benutzer> noticedBenutzer) {
+    public void setNoticedBenutzer(List<User> noticedBenutzer) {
         this.noticedBenutzer = noticedBenutzer;
     }
 
@@ -166,11 +166,11 @@ public class Anzeige implements Serializable {
         return ort;
     }
 
-    public Benutzer getReleasedBenutzer() {
+    public User getReleasedBenutzer() {
         return releasedBenutzer;
     }
 
-    public List<Benutzer> getNoticedBenutzer() {
+    public List<User> getNoticedBenutzer() {
         return noticedBenutzer;
     }
 
