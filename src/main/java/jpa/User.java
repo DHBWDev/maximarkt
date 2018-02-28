@@ -88,10 +88,10 @@ public class User implements Serializable {
     private String telefonnummer = "";
 
     @OneToMany(mappedBy = "releasedBenutzer")
-    List<Anzeige> releasedAnzeigen = new ArrayList<>();
+    List<Angebot> releasedAnzeigen = new ArrayList<>();
 
     @ManyToMany(mappedBy = "noticedBenutzer")
-    List<Anzeige> noticedAnzeigen = new ArrayList<>();
+    List<Angebot> noticedAnzeigen = new ArrayList<>();
 
 
     //<editor-fold defaultstate="collapsed" desc="Konstruktoren">
@@ -181,19 +181,19 @@ public class User implements Serializable {
         this.telefonnummer = telefonnummer;
     }
     
-    public void setReleasedAnzeigen(List<Anzeige> releasedAnzeigen) {
+    public void setReleasedAnzeigen(List<Angebot> releasedAnzeigen) {
         this.releasedAnzeigen = releasedAnzeigen;
     }
 
-    public void setNoticedAnzeigen(List<Anzeige> noticedAnzeigen) {
+    public void setNoticedAnzeigen(List<Angebot> noticedAnzeigen) {
         this.noticedAnzeigen = noticedAnzeigen;
     }
     
-    public List<Anzeige> getReleasedAnzeigen() {
+    public List<Angebot> getReleasedAnzeigen() {
         return releasedAnzeigen;
     }
 
-    public List<Anzeige> getNoticedAnzeigen() {
+    public List<Angebot> getNoticedAnzeigen() {
         return noticedAnzeigen;
 
     }
