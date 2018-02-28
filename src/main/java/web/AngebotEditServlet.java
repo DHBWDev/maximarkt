@@ -30,11 +30,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 /**
  * Seite zum Anlegen oder Bearbeiten einer Aufgabe.
  */
 @WebServlet(urlPatterns = "/app/task/*")
-public class TaskEditServlet extends HttpServlet {
+public class AngebotEditServlet extends HttpServlet {
 
     @EJB
     AngebotBean taskBean;
@@ -59,19 +60,19 @@ public class TaskEditServlet extends HttpServlet {
         // Zu bearbeitende Aufgabe einlesen
         HttpSession session = request.getSession();
 
-        Angebot task = this.getRequestedTask(request);
-        request.setAttribute("edit", task.getId() != 0);
+        Angebot angebot = this.getRequestedTask(request);
+        request.setAttribute("edit", angebot.getId() != 0);
                                 
-        if (session.getAttribute("task_form") == null) {
+        if (session.getAttribute("angebot_form") == null) {
             // Keine Formulardaten mit fehlerhaften Daten in der Session,
             // daher Formulardaten aus dem Datenbankobjekt übernehmen
-            request.setAttribute("task_form", this.createTaskForm(task));
+            request.setAttribute("angebot_form", this.createTaskForm(angebot));
         }
 
         // Anfrage an die JSP weiterleiten
-        request.getRequestDispatcher("/WEB-INF/app/task_edit.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/app/angebot_edit.jsp").forward(request, response);
 
-        session.removeAttribute("task_form");
+        session.removeAttribute("angebot_form");
     }
 
     @Override
@@ -110,53 +111,55 @@ public class TaskEditServlet extends HttpServlet {
 
         // Formulareingaben prüfen
         List<String> errors = new ArrayList<>();
+        
+       
+        
+        String aufgabeCategory = request.getParameter("aufgabe_category");
+        String aufgabeDueDate = request.getParameter("aufgabe_due_date");
+        String aufgabeDueTime = request.getParameter("aufgabe_due_time");
+        String aufgabeStatus = request.getParameter("aufgabe_status");
+        String aufgabeShortText = request.getParameter("aufgabe_short_text");
+        String aufgabeLongText = request.getParameter("aufgabe_long_text");
 
-        String taskCategory = request.getParameter("task_category");
-        String taskDueDate = request.getParameter("task_due_date");
-        String taskDueTime = request.getParameter("task_due_time");
-        String taskStatus = request.getParameter("task_status");
-        String taskShortText = request.getParameter("task_short_text");
-        String taskLongText = request.getParameter("task_long_text");
+        Angebot aufgabe = this.getRequestedTask(request);
 
-        Angebot task = this.getRequestedTask(request);
-
-        if (taskCategory != null && !taskCategory.trim().isEmpty()) {
+        if (aufgabeCategory != null && !aufgabeCategory.trim().isEmpty()) {
             try {
-                task.setCategory(this.categoryBean.findById(Long.parseLong(taskCategory)));
+                aufgabe.setCategory(this.categoryBean.findById(Long.parseLong(aufgabeCategory)));
             } catch (NumberFormatException ex) {
                 // Ungültige oder keine ID mitgegeben
             }
         }
 
-        Date dueDate = WebUtils.parseDate(taskDueDate);
-        Time dueTime = WebUtils.parseTime(taskDueTime);
+        Date dueDate = WebUtils.parseDate(aufgabeDueDate);
+        Time dueTime = WebUtils.parseTime(aufgabeDueTime);
 
         if (dueDate != null) {
-            task.setDueDate(dueDate);
+            //task.setDueDate(dueDate);
         } else {
             errors.add("Das Datum muss dem Format dd.mm.yyyy entsprechen.");
         }
 
         if (dueTime != null) {
-            task.setDueTime(dueTime);
+            //task.setDueTime(dueTime);
         } else {
             errors.add("Die Uhrzeit muss dem Format hh:mm:ss entsprechen.");
         }
 
         try {
-            task.setStatus(TaskStatus.valueOf(taskStatus));
+            //task.setStatus(TaskStatus.valueOf(taskStatus));
         } catch (IllegalArgumentException ex) {
             errors.add("Der ausgewählte Status ist nicht vorhanden.");
         }
 
-        task.setShortText(taskShortText);
-        task.setLongText(taskLongText);
+       // task.setShortText(taskShortText);
+        //task.setLongText(taskLongText);
 
-        this.validationBean.validate(task, errors);
+        this.validationBean.validate(aufgabe, errors);
 
         // Datensatz speichern
         if (errors.isEmpty()) {
-            this.taskBean.update(task);
+            this.taskBean.update(aufgabe);
         }
 
         // Weiter zur nächsten Seite
@@ -207,8 +210,8 @@ public class TaskEditServlet extends HttpServlet {
         // Zunächst davon ausgehen, dass ein neuer Satz angelegt werden soll
         Angebot task = new Angebot();
         task.setOwner(this.userBean.getCurrentUser());
-        task.setDueDate(new Date(System.currentTimeMillis()));
-        task.setDueTime(new Time(System.currentTimeMillis()));
+        //task.setDueDate(new Date(System.currentTimeMillis()));
+        //task.setDueTime(new Time(System.currentTimeMillis()));
 
         // ID aus der URL herausschneiden
         String taskId = request.getPathInfo();
@@ -257,23 +260,23 @@ public class TaskEditServlet extends HttpServlet {
         }
 
         values.put("task_due_date", new String[]{
-            WebUtils.formatDate(task.getDueDate())
+            //WebUtils.formatDate(task.getDueDate()) 
         });
 
         values.put("task_due_time", new String[]{
-            WebUtils.formatTime(task.getDueTime())
+            //WebUtils.formatTime(task.getDueTime())
         });
 
         values.put("task_status", new String[]{
-            task.getStatus().toString()
+           // task.getStatus().toString()
         });
 
         values.put("task_short_text", new String[]{
-            task.getShortText()
+           // task.getShortText()
         });
 
         values.put("task_long_text", new String[]{
-            task.getLongText()
+           // task.getLongText()
         });
 
         FormValues formValues = new FormValues();

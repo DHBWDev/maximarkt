@@ -70,8 +70,8 @@ public class TaskListServlet extends HttpServlet {
 
         }
 
-        List<Angebot> tasks = this.taskBean.search(searchText, category, status);
-        request.setAttribute("tasks", tasks);
+        //List<Angebot> tasks = this.taskBean.search(searchText, category, status);
+        //request.setAttribute("tasks", tasks);
 
         // Anfrage an die JSP weiterleiten
         request.getRequestDispatcher("/WEB-INF/app/task_list.jsp").forward(request, response);

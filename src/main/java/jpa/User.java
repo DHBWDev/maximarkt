@@ -109,6 +109,11 @@ public class User implements Serializable {
         this.email = email;
         this.telefonnummer = telefonnummer;
     }
+    public User(String username, String password) {
+        this.username = username;
+        this.password.password = password;
+        this.passwordHash = this.hashPassword(password);
+    }
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Setter und Getter">
