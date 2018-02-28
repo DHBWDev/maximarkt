@@ -64,7 +64,7 @@ public class AngebotBean extends EntityBean<Angebot, Long> {
         
         // WHERE t.status = :status
         if (angebotsart != null) {
-            query.where(cb.equal(from.get("angebotsart"), angebotsart));
+            query.where(cb.equal(from.get("art"), angebotsart));
         }
         
         return em.createQuery(query).getResultList();
