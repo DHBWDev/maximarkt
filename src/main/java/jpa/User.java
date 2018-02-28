@@ -24,11 +24,11 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 /**
  * Datenbankklasse für einen Benutzer.
@@ -63,18 +63,51 @@ public class User implements Serializable {
     )
     @Column(name = "GROUPNAME")
     List<String> groups = new ArrayList<>();
+    
+    @NotNull(message = "Der Name darf nicht leer sein.")
+    private String name = "";
+    
+    @NotNull(message = "Die Anschrift darf nicht leer sein.")
+    private String anschrift = "";
+    
+    @NotNull(message = "Die Postleitzahl darf nicht leer sein.")
+    private String plz = "";
+    
+    @NotNull(message = "Der Ort darf nicht leer sein.")
+    private String ort = "";
+
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     List<Angebot> tasks = new ArrayList<>();
+
+    @NotNull(message = "Die Email darf nicht leer sein.")
+    @Pattern(regexp = "^\\w+@\\w+\\..{2,3}(.{2,3})?$", message="Bitte geben Sie eine gültige Mailadresse an.")
+    private String email = "";
+    
+    @NotNull(message = "Die Telefonnummer darf nicht leer sein.")
+    private String telefonnummer = "";
+
+    @OneToMany(mappedBy = "releasedBenutzer")
+    List<Anzeige> releasedAnzeigen = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "noticedBenutzer")
+    List<Anzeige> noticedAnzeigen = new ArrayList<>();
+
 
     //<editor-fold defaultstate="collapsed" desc="Konstruktoren">
     public User() {
     }
 
-    public User(String username, String password) {
+    public User(String username, String password, String name, String anschrift, String plz, String ort, String email, String telefonnummer) {
         this.username = username;
         this.password.password = password;
         this.passwordHash = this.hashPassword(password);
+        this.name = name;
+        this.anschrift = anschrift;
+        this.plz = plz;
+        this.ort = ort;
+        this.email = email;
+        this.telefonnummer = telefonnummer;
     }
     //</editor-fold>
 
@@ -87,12 +120,82 @@ public class User implements Serializable {
         this.username = id;
     }
 
+
     public List<Angebot> getTasks() {
         return tasks;
     }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public String getAnschrift() {
+        return anschrift;
+
+    }
+
 
     public void setTasks(List<Angebot> tasks) {
         this.tasks = tasks;
+        
+    }
+
+    public void setAnschrift(String anschrift) {
+        this.anschrift = anschrift;
+    }
+    
+    
+    public String getPlz() {
+        return plz;
+    }
+    
+    public void setPlz(String plz) {
+        this.plz = plz;
+    }
+    
+    public String getOrt() {
+        return ort;
+    }
+    
+     public void setOrt(String ort) {
+        this.ort = ort;
+    }
+     
+    public String getEmail() {
+        return email;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
+    public String getTelefonnummer() {
+        return telefonnummer;
+    }
+    
+    public void setTelefonnummer(String telefonnummer) {
+        this.telefonnummer = telefonnummer;
+    }
+    
+    public void setReleasedAnzeigen(List<Anzeige> releasedAnzeigen) {
+        this.releasedAnzeigen = releasedAnzeigen;
+    }
+
+    public void setNoticedAnzeigen(List<Anzeige> noticedAnzeigen) {
+        this.noticedAnzeigen = noticedAnzeigen;
+    }
+    
+    public List<Anzeige> getReleasedAnzeigen() {
+        return releasedAnzeigen;
+    }
+
+    public List<Anzeige> getNoticedAnzeigen() {
+        return noticedAnzeigen;
+
     }
     //</editor-fold>
 
