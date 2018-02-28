@@ -34,7 +34,7 @@ import jpa.Category;
 /**
  * Seite zum Anlegen oder Bearbeiten einer Aufgabe.
  */
-@WebServlet(urlPatterns = "/app/angebot/")
+@WebServlet(urlPatterns = "/app/angebot/*")
 public class AngebotEditServlet extends HttpServlet {
 
     @EJB

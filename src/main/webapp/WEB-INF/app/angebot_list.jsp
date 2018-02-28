@@ -24,7 +24,7 @@
 
     <jsp:attribute name="menu">
         <div class="menuitem">
-            <a href="<c:url value="/app/angebote/new/"/>">Angebot anlegen</a>
+            <a href="<c:url value="/app/angebot/new/"/>">Angebot anlegen</a>
         </div>
 
         <div class="menuitem">

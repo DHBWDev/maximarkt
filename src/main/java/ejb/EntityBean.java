@@ -50,7 +50,6 @@ public abstract class EntityBean<Entity, EntityId> {
         if (id == null) {
             return null;
         }
-        
         return em.find(entityClass, id);
     }
 
