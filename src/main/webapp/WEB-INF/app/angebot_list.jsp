@@ -86,17 +86,17 @@
                         <tr>
                             <td>
                                 <a href="<c:url value="/app/task/${angebot.id}/"/>">
-                                    <c:out value="${task.titel}"/>
+                                    <c:out value="${angebot.titel}"/>
                                 </a>
                             </td>
                             <td>
-                                <c:out value="${task.category.name}"/>
+                                <c:out value="${angebot.category.name}"/>
                             </td>
                             <td>
-                                <c:out value="${task.owner.username}"/>
+                                <c:out value="${angebot.owner.username}"/>
                             </td>
                             <td>
-                                <c:out value="${task.art}"/>
+                                <c:out value="${angebot.art}"/>
                             </td>
                             <td>
                                 
