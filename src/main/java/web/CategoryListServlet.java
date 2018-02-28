@@ -10,10 +10,10 @@
 package web;
 
 import ejb.CategoryBean;
-import ejb.TaskBean;
+import ejb.AngebotBean;
 import ejb.ValidationBean;
 import jpa.Category;
-import jpa.Task;
+import jpa.Angebot;
 import java.io.IOException;
 import java.util.List;
 import javax.ejb.EJB;
@@ -37,7 +37,7 @@ public class CategoryListServlet extends HttpServlet {
     CategoryBean categoryBean;
     
     @EJB
-    TaskBean taskBean;
+    AngebotBean taskBean;
 
     @EJB
     ValidationBean validationBean;
@@ -150,7 +150,7 @@ public class CategoryListServlet extends HttpServlet {
             }
             
             // Bei allen betroffenen Aufgaben, den Bezug zur Kategorie aufheben
-            category.getTasks().forEach((Task task) -> {
+            category.getTasks().forEach((Angebot task) -> {
                 task.setCategory(null);
                 this.taskBean.update(task);
             });
