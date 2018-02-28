@@ -109,8 +109,7 @@ public class AngebotEditServlet extends HttpServlet {
         // Weiter zur nächsten Seite
         if (errors.isEmpty()) {
             // Keine Fehler: Startseite aufrufen
-            response.sendRedirect(WebUtils.appUrl(request, "/app/tasks/"));
-            
+            response.sendRedirect(WebUtils.appUrl(request, "/app/tasks/"));           
         } else {
             // Fehler: Formuler erneut anzeigen
             FormValues formValues = new FormValues();
