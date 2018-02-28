@@ -53,8 +53,8 @@ public class UserServlet extends HttpServlet {
         }
 
         // Anfrage an die JSP weiterleiten
-        request.getRequestDispatcher("/WEB-INF/app/task_edit.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/login/modify.jsp").forward(request, response);
 
-        session.removeAttribute("task_form");
+        //session.removeAttribute("task_form");
     }
 }
