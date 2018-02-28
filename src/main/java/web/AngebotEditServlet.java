@@ -29,16 +29,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+import jpa.Category;
 
 /**
  * Seite zum Anlegen oder Bearbeiten einer Aufgabe.
  */
-@WebServlet(urlPatterns = "/app/task/*")
+@WebServlet(urlPatterns = "/app/angebot/")
 public class AngebotEditServlet extends HttpServlet {
 
     @EJB
-    AngebotBean taskBean;
+    AngebotBean angebotBean;
 
     @EJB
     CategoryBean categoryBean;
@@ -52,27 +52,15 @@ public class AngebotEditServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        // Verfügbare Kategorien und Stati für die Suchfelder ermitteln
+        
+        //
         request.setAttribute("categories", this.categoryBean.findAllSorted());
-        request.setAttribute("statuses", TaskStatus.values());
-
+        
         // Zu bearbeitende Aufgabe einlesen
         HttpSession session = request.getSession();
 
-        Angebot angebot = this.getRequestedTask(request);
-        request.setAttribute("edit", angebot.getId() != 0);
-                                
-        if (session.getAttribute("angebot_form") == null) {
-            // Keine Formulardaten mit fehlerhaften Daten in der Session,
-            // daher Formulardaten aus dem Datenbankobjekt übernehmen
-            request.setAttribute("angebot_form", this.createTaskForm(angebot));
-        }
-
         // Anfrage an die JSP weiterleiten
         request.getRequestDispatcher("/WEB-INF/app/angebot_edit.jsp").forward(request, response);
-
-        session.removeAttribute("angebot_form");
     }
 
     @Override
@@ -84,17 +72,11 @@ public class AngebotEditServlet extends HttpServlet {
 
         String action = request.getParameter("action");
 
-        if (action == null) {
-            action = "";
-        }
-
-        switch (action) {
-            case "save":
-                this.saveTask(request, response);
-                break;
-            case "delete":
-                this.deleteTask(request, response);
-                break;
+        //if (action == null) {
+        //  action = "";
+        //}
+        if (action == "save") {
+            this.saveAngebot(request, response);
         }
     }
 
@@ -106,66 +88,53 @@ public class AngebotEditServlet extends HttpServlet {
      * @throws ServletException
      * @throws IOException
      */
-    private void saveTask(HttpServletRequest request, HttpServletResponse response)
+    private void saveAngebot(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Formulareingaben prüfen
+        // Eingaben prüfen
         List<String> errors = new ArrayList<>();
-        
-       
-        
-        String aufgabeCategory = request.getParameter("aufgabe_category");
-        String aufgabeDueDate = request.getParameter("aufgabe_due_date");
-        String aufgabeDueTime = request.getParameter("aufgabe_due_time");
-        String aufgabeStatus = request.getParameter("aufgabe_status");
-        String aufgabeShortText = request.getParameter("aufgabe_short_text");
-        String aufgabeLongText = request.getParameter("aufgabe_long_text");
 
-        Angebot aufgabe = this.getRequestedTask(request);
-
-        if (aufgabeCategory != null && !aufgabeCategory.trim().isEmpty()) {
+        String angebotKategorie = request.getParameter("angebot_kategorie");
+        String angebotArt = request.getParameter("angebot_art");
+        String angebotBezeichnung = request.getParameter("angebot_bezeichnung");
+        String angebotBeschreibung = request.getParameter("angebot_beschreibung");
+        String angebotPreisArt = request.getParameter("angebot_preisart");
+        double angebotPreis = Double.parseDouble(request.getParameter("angebot_preis"));
+        
+        Angebot angebot = new Angebot(this.userBean.getCurrentUser(), this.categoryBean.findById(1), "ARt", "Art", "blal", new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), 0, "", 0, "" );
+        
+        if (angebotKategorie != null && !angebotKategorie.trim().isEmpty()) {
             try {
-                aufgabe.setCategory(this.categoryBean.findById(Long.parseLong(aufgabeCategory)));
+                angebot.setCategory(this.categoryBean.findById(Long.parseLong(angebotKategorie)));
             } catch (NumberFormatException ex) {
                 // Ungültige oder keine ID mitgegeben
             }
         }
-
-        Date dueDate = WebUtils.parseDate(aufgabeDueDate);
-        Time dueTime = WebUtils.parseTime(aufgabeDueTime);
-
-        if (dueDate != null) {
-            //task.setDueDate(dueDate);
-        } else {
-            errors.add("Das Datum muss dem Format dd.mm.yyyy entsprechen.");
-        }
-
-        if (dueTime != null) {
-            //task.setDueTime(dueTime);
-        } else {
-            errors.add("Die Uhrzeit muss dem Format hh:mm:ss entsprechen.");
-        }
-
-        try {
-            //task.setStatus(TaskStatus.valueOf(taskStatus));
-        } catch (IllegalArgumentException ex) {
-            errors.add("Der ausgewählte Status ist nicht vorhanden.");
-        }
-
-       // task.setShortText(taskShortText);
-        //task.setLongText(taskLongText);
-
-        this.validationBean.validate(aufgabe, errors);
+        
+        
+        
+        angebot.setErstellungsDatum(new Date(System.currentTimeMillis()));
+        angebot.setOnlineBis(new Date(System.currentTimeMillis()));
+        angebot.setOrt("Ort");
+        angebot.setPlz(2324);
+        angebot.setTitel("sdfdsfdsf");
+        angebot.setBeschreibung("sadsad");
+        angebot.setArt("Art");
+        angebot.setArtDesPreises("yosl");
+        angebot.setPreisVorstellung(545);
+        angebot.setOwner(this.userBean.getCurrentUser());
+        this.validationBean.validate(angebot, errors);
 
         // Datensatz speichern
-        if (errors.isEmpty()) {
-            this.taskBean.update(aufgabe);
+         if (errors.isEmpty()) {
+        this.angebotBean.saveNew(angebot);
+        System.out.println("jjdasojsd");
         }
-
+        
         // Weiter zur nächsten Seite
         if (errors.isEmpty()) {
             // Keine Fehler: Startseite aufrufen
-            response.sendRedirect(WebUtils.appUrl(request, "/app/tasks/"));
+            response.sendRedirect(WebUtils.appUrl(request, "/app/angebot/"));
         } else {
             // Fehler: Formuler erneut anzeigen
             FormValues formValues = new FormValues();
@@ -173,10 +142,11 @@ public class AngebotEditServlet extends HttpServlet {
             formValues.setErrors(errors);
 
             HttpSession session = request.getSession();
-            session.setAttribute("task_form", formValues);
+            session.setAttribute("angebot_form", formValues);
 
             response.sendRedirect(request.getRequestURI());
         }
+        
     }
 
     /**
@@ -187,15 +157,15 @@ public class AngebotEditServlet extends HttpServlet {
      * @throws ServletException
      * @throws IOException
      */
-    private void deleteTask(HttpServletRequest request, HttpServletResponse response)
+    private void deleteAngebot(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         // Datensatz löschen
-        Angebot task = this.getRequestedTask(request);
-        this.taskBean.delete(task);
+        Angebot angebot = this.getRequestedTask(request);
+        this.angebotBean.delete(angebot);
 
         // Zurück zur Übersicht
-        response.sendRedirect(WebUtils.appUrl(request, "/app/tasks/"));
+        response.sendRedirect(WebUtils.appUrl(request, "/app/angebot/"));
     }
 
     /**
@@ -208,32 +178,32 @@ public class AngebotEditServlet extends HttpServlet {
      */
     private Angebot getRequestedTask(HttpServletRequest request) {
         // Zunächst davon ausgehen, dass ein neuer Satz angelegt werden soll
-        Angebot task = new Angebot();
-        task.setOwner(this.userBean.getCurrentUser());
+        Angebot angebot = new Angebot();
+        angebot.setOwner(this.userBean.getCurrentUser());
         //task.setDueDate(new Date(System.currentTimeMillis()));
         //task.setDueTime(new Time(System.currentTimeMillis()));
 
         // ID aus der URL herausschneiden
-        String taskId = request.getPathInfo();
+        String angebotId = request.getPathInfo();
 
-        if (taskId == null) {
-            taskId = "";
+        if (angebotId == null) {
+            angebotId = "";
         }
 
-        taskId = taskId.substring(1);
+        angebotId = angebotId.substring(1);
 
-        if (taskId.endsWith("/")) {
-            taskId = taskId.substring(0, taskId.length() - 1);
+        if (angebotId.endsWith("/")) {
+            angebotId = angebotId.substring(0, angebotId.length() - 1);
         }
 
         // Versuchen, den Datensatz mit der übergebenen ID zu finden
         try {
-            task = this.taskBean.findById(Long.parseLong(taskId));
+            angebot = this.angebotBean.findById(Long.parseLong(angebotId));
         } catch (NumberFormatException ex) {
             // Ungültige oder keine ID in der URL enthalten
         }
 
-        return task;
+        return angebot;
     }
 
     /**
@@ -246,37 +216,32 @@ public class AngebotEditServlet extends HttpServlet {
      * @param task Die zu bearbeitende Aufgabe
      * @return Neues, gefülltes FormValues-Objekt
      */
-    private FormValues createTaskForm(Angebot task) {
+    private FormValues createTaskForm(Angebot angebot) {
         Map<String, String[]> values = new HashMap<>();
 
         values.put("task_owner", new String[]{
-            task.getOwner().getUsername()
+            angebot.getOwner().getUsername()
         });
 
-        if (task.getCategory() != null) {
+        if (angebot.getCategory() != null) {
             values.put("task_category", new String[]{
-                task.getCategory().toString()
+                angebot.getCategory().toString()
             });
         }
 
-        values.put("task_due_date", new String[]{
-            //WebUtils.formatDate(task.getDueDate()) 
+        values.put("task_due_date", new String[]{ //WebUtils.formatDate(task.getDueDate()) 
         });
 
-        values.put("task_due_time", new String[]{
-            //WebUtils.formatTime(task.getDueTime())
+        values.put("task_due_time", new String[]{ //WebUtils.formatTime(task.getDueTime())
         });
 
-        values.put("task_status", new String[]{
-           // task.getStatus().toString()
+        values.put("task_status", new String[]{ // task.getStatus().toString()
         });
 
-        values.put("task_short_text", new String[]{
-           // task.getShortText()
+        values.put("task_short_text", new String[]{ // task.getShortText()
         });
 
-        values.put("task_long_text", new String[]{
-           // task.getLongText()
+        values.put("task_long_text", new String[]{ // task.getLongText()
         });
 
         FormValues formValues = new FormValues();
