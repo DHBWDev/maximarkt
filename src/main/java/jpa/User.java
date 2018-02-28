@@ -76,23 +76,17 @@ public class User implements Serializable {
     @NotNull(message = "Der Ort darf nicht leer sein.")
     private String ort = "";
 
-
-    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    List<Angebot> tasks = new ArrayList<>();
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    List<Angebot> Angebote = new ArrayList<>();
 
     @NotNull(message = "Die Email darf nicht leer sein.")
-//    @Pattern(regexp = "^\\w+@\\w+\\..{2,3}(.{2,3})?$", message="Bitte geben Sie eine gültige Mailadresse an.")
-    @Pattern(regexp = "^\\w+@\\w+\\..{2,3}(.{2,3})?$", message="Bitte geben Sie eine gültige Mailadresse an.")
+    //@Pattern(regexp = "^\\w+@\\w+\\..{2,3}(.{2,3})?$", message="Bitte geben Sie eine gültige Mailadresse an.")
+    //@Pattern(regexp = "^\\w+@\\w+\\..{2,3}(.{2,3})?$")
     private String email = "";
     
     @NotNull(message = "Die Telefonnummer darf nicht leer sein.")
     private String telefonnummer = "";
 
-    @OneToMany(mappedBy = "releasedBenutzer")
-    List<Angebot> releasedAnzeigen = new ArrayList<>();
-
-    @ManyToMany(mappedBy = "noticedBenutzer")
-    List<Angebot> noticedAnzeigen = new ArrayList<>();
 
 
     //<editor-fold defaultstate="collapsed" desc="Konstruktoren">
@@ -126,11 +120,6 @@ public class User implements Serializable {
         this.username = id;
     }
 
-
-    public List<Angebot> getTasks() {
-        return tasks;
-    }
-    
     public String getName() {
         return name;
     }
@@ -142,12 +131,6 @@ public class User implements Serializable {
     public String getAnschrift() {
         return anschrift;
 
-    }
-
-
-    public void setTasks(List<Angebot> tasks) {
-        this.tasks = tasks;
-        
     }
 
     public void setAnschrift(String anschrift) {
@@ -187,20 +170,12 @@ public class User implements Serializable {
         this.telefonnummer = telefonnummer;
     }
     
-    public void setReleasedAnzeigen(List<Angebot> releasedAnzeigen) {
-        this.releasedAnzeigen = releasedAnzeigen;
+    public void setAnzeigen(List<Angebot> releasedAnzeigen) {
+        this.Angebote = releasedAnzeigen;
     }
 
-    public void setNoticedAnzeigen(List<Angebot> noticedAnzeigen) {
-        this.noticedAnzeigen = noticedAnzeigen;
-    }
-    
-    public List<Angebot> getReleasedAnzeigen() {
-        return releasedAnzeigen;
-    }
-
-    public List<Angebot> getNoticedAnzeigen() {
-        return noticedAnzeigen;
+    public List<Angebot> getAnzeigen() {
+        return Angebote;
 
     }
     //</editor-fold>

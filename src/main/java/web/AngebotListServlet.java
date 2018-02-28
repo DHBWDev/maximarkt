@@ -65,6 +65,6 @@ public class AngebotListServlet extends HttpServlet {
         request.setAttribute("angebote", angebote);
 
         // Anfrage an die JSP weiterleiten
-        request.getRequestDispatcher("/WEB-INF/app/task_list.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/app/angebot_list.jsp").forward(request, response);
     }
 }

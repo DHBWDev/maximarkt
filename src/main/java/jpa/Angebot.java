@@ -20,6 +20,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.TableGenerator;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -64,11 +65,11 @@ public class Angebot implements Serializable {
     
     
     @ManyToOne
-    @NotNull(message = "Die Aufgabe muss einem Benutzer geordnet werden.")
-    private User owner;
+    private User user = null;
+    
 
     @ManyToOne
-    private Category category;
+    private Category category = null;
 
     
 
@@ -79,7 +80,7 @@ public class Angebot implements Serializable {
     public Angebot(User owner, Category category, String art, String titel, 
             String beschreibung, Date erstellungsDatum, Time onlineBis,
             Double preisVorstellung, String artDesPreises, int plz, String ort) {
-        this.owner = owner;
+        this.user = owner;
         this.category = category;
         this.art = art;
         this.titel = titel;
@@ -176,11 +177,11 @@ public class Angebot implements Serializable {
     }
 
     public User getOwner() {
-        return owner;
+        return user;
     }
 
     public void setOwner(User owner) {
-        this.owner = owner;
+        this.user = owner;
     }
 
     public Category getCategory() {
