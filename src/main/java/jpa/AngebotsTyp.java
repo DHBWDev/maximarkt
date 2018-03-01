@@ -12,8 +12,8 @@ package jpa;
 /**
  * Statuswerte einer Aufgabe.
  */
-public enum TaskStatus {
-    OPEN, IN_PROGRESS, FINISHED, CANCELED, POSTPONED;
+public enum AngebotsTyp {
+    Suche, Biete;
 
     /**
      * Bezeichnung ermitteln
@@ -22,16 +22,10 @@ public enum TaskStatus {
      */
     public String getLabel() {
         switch (this) {
-            case OPEN:
-                return "Offen";
-            case IN_PROGRESS:
-                return "In Bearbeitung";
-            case FINISHED:
-                return "Erledigt";
-            case CANCELED:
-                return "Abgesagt";
-            case POSTPONED:
-                return "Zurückgestellt";
+            case Suche:
+                return "Suche";
+            case Biete:
+                return "Biete";       
             default:
                 return this.toString();
         }

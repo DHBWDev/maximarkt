@@ -13,7 +13,7 @@ import ejb.CategoryBean;
 import ejb.AngebotBean;
 import jpa.Category;
 import jpa.Angebot;
-import jpa.TaskStatus;
+import jpa.AngebotsTyp;
 import java.io.IOException;
 import java.util.List;
 import javax.ejb.EJB;
@@ -40,11 +40,10 @@ public class AngebotListServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String[] arten = {"Biete", "Suche"};
 
         // Verfügbare Kategorien und Stati für die Suchfelder ermitteln
         request.setAttribute("categories", this.categoryBean.findAllSorted());
-        request.setAttribute("arten", arten);
+        request.setAttribute("arten", AngebotsTyp.values());
 
         // Suchparameter aus der URL auslesen
         String searchText = request.getParameter("search_text");
@@ -53,10 +52,9 @@ public class AngebotListServlet extends HttpServlet {
         
         
         
-        request.setAttribute("arten", arten);
         // Anzuzeigende Aufgaben suchen
         Category category = null;
-        
+        AngebotsTyp angebotstyp = null;
 
         if (searchCategory != null) {
             try {
@@ -66,9 +64,16 @@ public class AngebotListServlet extends HttpServlet {
             }
         }
         
+        if (searchArt != null) {
+            try {
+                angebotstyp = AngebotsTyp.valueOf(searchArt);
+            } catch (IllegalArgumentException ex) {
+                angebotstyp = null;
+            }
+        }
         
 
-        List<Angebot> angebote = this.angebotBean.search(searchText, category, searchArt);
+        List<Angebot> angebote = this.angebotBean.search(searchText, category, angebotstyp);
         request.setAttribute("angebote", angebote);
         
 

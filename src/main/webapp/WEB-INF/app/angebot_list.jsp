@@ -51,11 +51,11 @@
                 </c:forEach>
             </select>
 
-            <select name="search_status">
-                <option value="">Alle Stati</option>
+            <select name="search_art">
+                <option value="">Alle Typen</option>
 
                 <c:forEach items="${arten}" var="art">
-                    <option value="${art}" ${param.search_art == status ? 'selected' : ''}>
+                    <option value="${art}" ${param.search_art == art ? 'selected' : ''}>
                         <c:out value="${art}"/>
                     </option>
                 </c:forEach>

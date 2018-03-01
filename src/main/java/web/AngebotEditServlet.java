@@ -14,7 +14,7 @@ import ejb.AngebotBean;
 import ejb.UserBean;
 import ejb.ValidationBean;
 import jpa.Angebot;
-import jpa.TaskStatus;
+import jpa.AngebotsTyp;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
