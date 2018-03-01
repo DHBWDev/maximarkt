@@ -18,6 +18,7 @@ import jpa.AngebotsTyp;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +33,7 @@ import javax.servlet.http.HttpSession;
 import jpa.Category;
 import jpa.User;
 import jpa.PreisArt;
+import static org.eclipse.persistence.expressions.ExpressionOperator.Round;
 
 /**
  * Seite zum Anlegen oder Bearbeiten einer Aufgabe.
@@ -75,6 +77,7 @@ public class AngebotEditServlet extends HttpServlet {
         // Anfrage an die JSP weiterleiten
         request.getRequestDispatcher("/WEB-INF/app/angebot_edit.jsp").forward(request, response);
 
+        
         session.removeAttribute("angebot_form");
     }
 
@@ -110,18 +113,16 @@ public class AngebotEditServlet extends HttpServlet {
      */
     private void saveAngebot(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+     
         // Formulareingaben prüfen
         List<String> errors = new ArrayList<>();
         
         String angebotKategorie = request.getParameter("angebot_category");
         String angebotArt = request.getParameter("angebot_art");
-        
         String angebotBezeichnung = request.getParameter("angebot_bezeichnung");
-        String angebotBeschreibung = request.getParameter("angebot_beschreibung");
-        
-        String angebotPreisArt = request.getParameter("angebot_preisart");
-        double angebotPreis = Double.parseDouble(request.getParameter("angebot_preis"));
+        String angebotBeschreibung = request.getParameter("angebot_beschreibung");       
+        String angebotPreisArt = request.getParameter("angebot_preisart");   
+        String angebotPreis = request.getParameter("angebot_preis");
         
         Angebot angebot = this.getRequestedAngebot(request);
 
@@ -132,13 +133,29 @@ public class AngebotEditServlet extends HttpServlet {
                 // Ungültige oder keine ID mitgegeben
             }
         }
+       
+        
+        if ((!angebotPreis.isEmpty()) && (angebotPreis != null)) {
+            double d = Double.parseDouble(angebotPreis) + 0.00;
+            d =  Math.round(100.0 * d) / 100.0;
+            angebot.setPreisVorstellung(d);
+            //angebot.setPreisVorstellung(Double.parseDouble(angebotPreis));
+        } else {
+            errors.add("Der Preis darf nicht leer sein.");
+        }
+        
+        if (angebotBezeichnung != null) {
+            angebot.setTitel(angebotBezeichnung);
+        } else {
+            errors.add("Die Bezeichnung darf nicht leer sein.");
+        }
+        
+       
         
         angebot.setOwner(this.userBean.getCurrentUser());
         angebot.setArt(angebotArt);
-        angebot.setTitel(angebotBezeichnung);
         angebot.setBeschreibung(angebotBeschreibung);
         angebot.setErstellungsDatum(new Date(System.currentTimeMillis()));
-        angebot.setPreisVorstellung(angebotPreis);
         angebot.setArtDesPreises(angebotPreisArt); 
         
         this.validationBean.validate(angebot, errors);

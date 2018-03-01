@@ -75,6 +75,7 @@ public class AngebotListServlet extends HttpServlet {
 
         List<Angebot> angebote = this.angebotBean.search(searchText, category, angebotstyp);
         request.setAttribute("angebote", angebote);
+       
         
 
         // Anfrage an die JSP weiterleiten
