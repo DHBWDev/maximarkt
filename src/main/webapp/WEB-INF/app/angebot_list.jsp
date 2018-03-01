@@ -13,6 +13,8 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
+
+
 <template:base>
     <jsp:attribute name="title">
         Übersicht
@@ -105,7 +107,8 @@
                                 <c:out value="${angebot.art}"/>
                             </td>
                             <td>
-                                <c:out value="${angebot.preisVorstellung}"/>
+                                <fmt:formatNumber value="${angebot.preisVorstellung}" pattern="###.###E0" var="newdatevar" />
+                                <c:out value="${newdatevar}"/> 
                             </td>
                             <td>
                                 <c:out value="${angebot.artDesPreises}"/>

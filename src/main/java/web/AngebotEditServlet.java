@@ -31,11 +31,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import jpa.Category;
 import jpa.User;
+import jpa.PreisArt;
 
 /**
  * Seite zum Anlegen oder Bearbeiten einer Aufgabe.
  */
-@WebServlet(urlPatterns = "/app/angebot/new/")
+@WebServlet(urlPatterns = "/app/angebot/*")
 public class AngebotEditServlet extends HttpServlet {
 
     @EJB
@@ -56,12 +57,25 @@ public class AngebotEditServlet extends HttpServlet {
         
         //
         request.setAttribute("categories", this.categoryBean.findAllSorted());
-        
+        request.setAttribute("arten", AngebotsTyp.values());
+        request.setAttribute("preisarten", PreisArt.values());
+   
         // Zu bearbeitende Aufgabe einlesen
         HttpSession session = request.getSession();
 
+        Angebot angebot = this.getRequestedAngebot(request);
+        request.setAttribute("edit", angebot.getId() != 0);
+                                
+        if (session.getAttribute("angebot_form") == null) {
+            // Keine Formulardaten mit fehlerhaften Daten in der Session,
+            // daher Formulardaten aus dem Datenbankobjekt übernehmen
+            request.setAttribute("angebot_form", this.createAngebotForm(angebot));
+        }
+
         // Anfrage an die JSP weiterleiten
         request.getRequestDispatcher("/WEB-INF/app/angebot_edit.jsp").forward(request, response);
+
+        session.removeAttribute("angebot_form");
     }
 
     @Override
@@ -126,9 +140,12 @@ public class AngebotEditServlet extends HttpServlet {
         angebot.setErstellungsDatum(new Date(System.currentTimeMillis()));
         angebot.setPreisVorstellung(angebotPreis);
         angebot.setArtDesPreises(angebotPreisArt); 
+        
+        this.validationBean.validate(angebot, errors);
+        
         // Datensatz speichern
         if (errors.isEmpty()) {
-            this.angebotBean.saveNew(angebot);
+            this.angebotBean.update(angebot);
         }
 
         // Weiter zur nächsten Seite
@@ -142,8 +159,7 @@ public class AngebotEditServlet extends HttpServlet {
             formValues.setErrors(errors);
 
             HttpSession session = request.getSession();
-            session.setAttribute("aufgabe_form", formValues);
-
+            session.setAttribute("angebot_form", formValues);
             response.sendRedirect(request.getRequestURI());
         }
     }
@@ -218,29 +234,34 @@ public class AngebotEditServlet extends HttpServlet {
     private FormValues createAngebotForm(Angebot angebot) {
         Map<String, String[]> values = new HashMap<>();
 
-        values.put("task_owner", new String[]{
+        values.put("angebot_owner", new String[]{
             angebot.getOwner().getUsername()
         });
 
         if (angebot.getCategory() != null) {
-            values.put("task_category", new String[]{
+            values.put("angebot_category", new String[]{
                 angebot.getCategory().toString()
             });
         }
 
-        values.put("task_due_date", new String[]{ //WebUtils.formatDate(task.getDueDate()) 
+        values.put("angebot_art", new String[]{
+            angebot.getArt()
         });
 
-        values.put("task_due_time", new String[]{ //WebUtils.formatTime(task.getDueTime())
+        values.put("angebot_bezeichnung", new String[]{ 
+            angebot.getTitel()
         });
 
-        values.put("task_status", new String[]{ // task.getStatus().toString()
+        values.put("angebot_beschreibung", new String[]{ 
+            angebot.getBeschreibung()
         });
 
-        values.put("task_short_text", new String[]{ // task.getShortText()
+        values.put("angebot_preisart", new String[]{ 
+            angebot.getArtDesPreises()
         });
 
-        values.put("task_long_text", new String[]{ // task.getLongText()
+        values.put("angebot_preis", new String[]{ 
+            Double.toString(angebot.getPreisVorstellung())
         });
 
         FormValues formValues = new FormValues();

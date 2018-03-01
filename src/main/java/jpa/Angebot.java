@@ -44,7 +44,7 @@ public class Angebot implements Serializable {
 
     @Lob
     @NotNull(message = "Die Beschreibung darf nicht leer sein.")
-    @Size(min = 1, max = 50, message = "Die Bezeichnung muss zwischen ein und 50 Zeichen lang sein.")
+    @Size(min = 1, max = 50, message = "Die Beschreibung muss zwischen ein und 50 Zeichen lang sein.")
     private String beschreibung = "";
 
     private Date erstellungsDatum = null;

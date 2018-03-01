@@ -17,10 +17,10 @@
     <jsp:attribute name="title">
         <c:choose>
             <c:when test="${edit}">
-                Aufgabe bearbeiten
+                Angebot bearbeiten
             </c:when>
             <c:otherwise>
-                Aufgabe anlegen
+                Angebot anlegen
             </c:otherwise>
         </c:choose>
     </jsp:attribute>
@@ -43,15 +43,13 @@
 
                 <%-- Eingabefelder --%>
 
-                <label for="angebot_category">
-                    Kategorie:
-                </label>
+                <label for="task_category">Kategorie:</label>
+                
                 <div class="side-by-side">
-                    <select name="angebot_category">
+                    <select name="task_category">
                         <option value="">Keine Kategorie</option>
-
                         <c:forEach items="${categories}" var="category">
-                            <option value="${category.id}"${angebot_form.values["angebot_category"][0] == category.id ? 'selected' : ''}>
+                            <option value="${category.id}"${task_form.values["task_category"][0] == category.id ? 'selected' : ''}>
                                 <c:out value="${category.name}" />
                             </option>
                         </c:forEach>
@@ -63,9 +61,12 @@
                     <span class="required">*</span>
                 </label>
                 <div class="side-by-side">
-                    <select name="angebot_art" value="${angebot_form.values["angebot_art"][0]}">
-                        <option>Biete</option>
-                        <option>Suche</option>
+                    <select name="angebot_art">
+                        <c:forEach items="${arten}" var="art">
+                            <option value="${art}" ${angebot_form.values["angebot_art"][0] == art ? 'selected' : ''}>
+                                <c:out value="${art.label}"/>
+                            </option>
+                         </c:forEach>
                     </select>
                 </div>
 
@@ -81,17 +82,21 @@
                     Beschreibung:
                 </label>
                 <div class="side-by-side">
-                    <textarea name="angebot_beschreibung" value="${angebot_form.values["angebot_beschreibung"][0]}"></textarea>
+                    <textarea name="angebot_beschreibung">
+                        ${angebot_form.values["angebot_beschreibung"][0]}
+                    </textarea>
                 </div>
 
                 <label for="angebot_preis">
                     Preis
-                </label>
+                </label>   
                 <div class="side-by-side">
-                    <select name="angebot_preisart" value="${angebot_form.values["angebot_preisart"][0]}">
-                        <option>Festpreis</option>
-                        <option>Verhandlungsbasis</option>
-                        <option>Sonstiges</option>
+                    <select name="angebot_preisart">
+                        <c:forEach items="${preisarten}" var="art">
+                            <option value="${art}" ${angebot_form.values["angebot_preisart"][0] == art ? 'selected' : ''}>
+                                <c:out value="${art.label}"/>
+                            </option>
+                         </c:forEach>
                     </select>
                     <input name="angebot_preis" type="number" value="${angebot_form.values["angebot_preis"][0]}">
                 </div>
