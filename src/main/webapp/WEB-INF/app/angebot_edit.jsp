@@ -43,7 +43,9 @@
 
                 <%-- Eingabefelder --%>
 
-                <label for="angebot_kategorie">Kategorie:</label>
+                <label for="angebot_category">
+                    Kategorie:
+                </label>
                 <div class="side-by-side">
                     <select name="angebot_category">
                         <option value="">Keine Kategorie</option>
@@ -56,32 +58,37 @@
                     </select>
                 </div>
 
-                <label for="angebot_art">Art des Angebots:   
+                <label for="angebot_art">
+                    Art des Angebots:   
                     <span class="required">*</span>
                 </label>
                 <div class="side-by-side">
-                    <select name="angebot_art">
+                    <select name="angebot_art" value="${angebot_form.values["angebot_art"][0]}">
                         <option>Biete</option>
                         <option>Suche</option>
                     </select>
-
                 </div>
 
-                <label for="angebot_bezeichnung">Bezeichnung:
+                <label for="angebot_bezeichnung">
+                    Bezeichnung:
                     <span class="required">*</span>
                 </label>
                 <div class="side-by-side">
                     <input type="text" name="angebot_bezeichnung" value="${angebot_form.values["angebot_bezeichnung"][0]}">
                 </div>
 
-                <label for="angebot_beschreibung">Beschreibung:</label>
+                <label for="angebot_beschreibung">
+                    Beschreibung:
+                </label>
                 <div class="side-by-side">
                     <textarea name="angebot_beschreibung" value="${angebot_form.values["angebot_beschreibung"][0]}"></textarea>
                 </div>
 
-                <label for="angebot_preis">Preis</label>
+                <label for="angebot_preis">
+                    Preis
+                </label>
                 <div class="side-by-side">
-                    <select name="angebot_preisart">
+                    <select name="angebot_preisart" value="${angebot_form.values["angebot_preisart"][0]}">
                         <option>Festpreis</option>
                         <option>Verhandlungsbasis</option>
                         <option>Sonstiges</option>
@@ -89,62 +96,6 @@
                     <input name="angebot_preis" type="number" value="${angebot_form.values["angebot_preis"][0]}">
                 </div>
 
-
-
-
-
-                <%---- ALT
-                <label for="angebot_category">Kategorie:</label>
-                <div class="side-by-side">
-                    <select name="angebot_category">
-                        <option value="">Keine Kategorie</option>
-
-                        <c:forEach items="${categories}" var="category">
-                            <option value="${category.id}" ${angebot_form.values["angebot_category"][0] == category.id ? 'selected' : ''}>
-                                <c:out value="${category.name}" />
-                            </option>
-                        </c:forEach>
-                    </select>
-                </div>
-
-                <label for="angebot_due_date">
-                    Fällig am:
-                    <span class="required">*</span>
-                </label>
-                <div class="side-by-side">
-                    <input type="text" name="angebot_due_date" value="${angebot_form.values["angebot_due_date"][0]}">
-                    <input type="text" name="angebot_due_time" value="${angebot_form.values["angebot_due_time"][0]}">
-                </div>
-
-                <label for="angebot_status">
-                    Status:
-                    <span class="required">*</span>
-                </label>
-                <div class="side-by-side margin">
-                    <select name="angebot_status">
-                        <c:forEach items="${statuses}" var="status">
-                            <option value="${status}" ${angebot_form.values["angebot_status"][0] == status ? 'selected' : ''}>
-                                <c:out value="${status.label}"/>
-                            </option>
-                        </c:forEach>
-                    </select>
-                </div>
-
-                <label for="angebot_short_text">
-                    Bezeichnung:
-                    <span class="required">*</span>
-                </label>
-                <div class="side-by-side">
-                    <input type="text" name="angebot_short_text" value="${angebot_form.values["angebot_short_text"][0]}">
-                </div>
-
-                <label for="angebot_long_text">
-                    Beschreibung:
-                </label>
-                <div class="side-by-side">
-                    <textarea name="angebot_long_text"><c:out value="${angebot_form.values['angebot_long_text'][0]}"/></textarea>
-                </div>
-                ---%>
                 <%-- Button zum Abschicken --%>
                 <div class="side-by-side">
                     <button class="icon-pencil" type="submit" name="action" value="save">
@@ -164,7 +115,7 @@
                 <ul class="errors">
                     <c:forEach items="${angebot_form.errors}" var="error">
                         <li>${error}</li>
-                        </c:forEach>
+                    </c:forEach>
                 </ul>
             </c:if>
         </form>

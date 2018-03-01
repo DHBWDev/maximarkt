@@ -10,8 +10,7 @@
 package jpa;
 
 import java.io.Serializable;
-import java.sql.Date;
-import java.sql.Time;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -48,21 +47,13 @@ public class Angebot implements Serializable {
     @Size(min = 1, max = 50, message = "Die Bezeichnung muss zwischen ein und 50 Zeichen lang sein.")
     private String beschreibung = "";
 
-    private java.util.Date erstellungsDatum = null;
-    private java.util.Date onlineBis = null;
+    private Date erstellungsDatum = null;
 
     @NotNull(message = "Der Preis darf nicht leer sein.")
     private double preisVorstellung = 0;
     
     @NotNull(message = "Die Preisart darf nicht leer sein.")
     private String artDesPreises = "";
-
-    @NotNull(message = "Die PLZ darf nicht leer sein.")
-    private int plz = 0;
-    
-    @NotNull(message = "Der Ort darf nicht leer sein.")
-    private String ort = "";
-    
     
     @ManyToOne
     private User user = null;
@@ -77,21 +68,16 @@ public class Angebot implements Serializable {
     }
 
     public Angebot(User owner, Category category, String art, String titel, 
-            String beschreibung, Date erstellungsDatum, Time onlineBis,
-            Double preisVorstellung, String artDesPreises, int plz, String ort) {
+            String beschreibung, Date erstellungsDatum,
+            Double preisVorstellung, String artDesPreises) {
         this.user = owner;
         this.category = category;
         this.art = art;
         this.titel = titel;
         this.beschreibung = beschreibung;
         this.erstellungsDatum = erstellungsDatum;
-        this.onlineBis = onlineBis;
         this.preisVorstellung = preisVorstellung;
         this.artDesPreises = artDesPreises;
-        this.plz = plz;
-        this.ort = ort;
-        
-        
     }
     //</editor-fold>
 
@@ -127,20 +113,12 @@ public class Angebot implements Serializable {
         this.beschreibung = beschreibung;
     }
 
-    public java.util.Date getErstellungsDatum() {
+    public Date getErstellungsDatum() {
         return erstellungsDatum;
     }
 
-    public void setErstellungsDatum(java.util.Date erstellungsDatum) {
+    public void setErstellungsDatum(Date erstellungsDatum) {
         this.erstellungsDatum = erstellungsDatum;
-    }
-
-    public java.util.Date getOnlineBis() {
-        return onlineBis;
-    }
-
-    public void setOnlineBis(java.util.Date onlineBis) {
-        this.onlineBis = onlineBis;
     }
 
     public double getPreisVorstellung() {
@@ -157,22 +135,6 @@ public class Angebot implements Serializable {
 
     public void setArtDesPreises(String artDesPreises) {
         this.artDesPreises = artDesPreises;
-    }
-
-    public int getPlz() {
-        return plz;
-    }
-
-    public void setPlz(int plz) {
-        this.plz = plz;
-    }
-
-    public String getOrt() {
-        return ort;
-    }
-
-    public void setOrt(String ort) {
-        this.ort = ort;
     }
 
     public User getOwner() {

@@ -30,11 +30,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import jpa.Category;
+import jpa.User;
 
 /**
  * Seite zum Anlegen oder Bearbeiten einer Aufgabe.
  */
-@WebServlet(urlPatterns = "/app/angebot/")
+@WebServlet(urlPatterns = "/app/angebot/new/")
 public class AngebotEditServlet extends HttpServlet {
 
     @EJB
@@ -69,13 +70,20 @@ public class AngebotEditServlet extends HttpServlet {
 
         // Angeforderte Aktion ausführen
         request.setCharacterEncoding("utf-8");
-
         String action = request.getParameter("action");
 
-        //if (action == null) {
-        //  action = "";
-        //}
-            this.saveAngebot(request, response);
+        if (action == null) {
+            action = "";
+        }
+
+        switch (action) {
+            case "save":
+                this.saveAngebot(request, response);
+                break;
+            case "delete":
+                this.deleteAngebot(request, response);
+                break;
+        }
     }
 
     /**
@@ -89,18 +97,35 @@ public class AngebotEditServlet extends HttpServlet {
     private void saveAngebot(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String angebotKategorie = request.getParameter("angebot_category");
-        String angebotArt = request.getParameter("angebot_art");
-        String angebotBezeichnung = request.getParameter("angebot_bezeichnung");
-        String angebotBeschreibung = request.getParameter("angebot_beschreibung");
-       // String angebotPreisArt = request.getParameter("angebot_preisart");
-        double angebotPreis = Double.parseDouble(request.getParameter("angebot_preis"));
-        
         // Formulareingaben prüfen
         List<String> errors = new ArrayList<>();
- 
-        Angebot angebot = new Angebot(this.userBean.getCurrentUser(), null,angebotArt, angebotBezeichnung, angebotBeschreibung, null, null, angebotPreis, "dad", 0, "adada");
+        
+        String angebotKategorie = request.getParameter("angebot_category");
+        String angebotArt = request.getParameter("angebot_art");
+        
+        String angebotBezeichnung = request.getParameter("angebot_bezeichnung");
+        String angebotBeschreibung = request.getParameter("angebot_beschreibung");
+        
+        String angebotPreisArt = request.getParameter("angebot_preisart");
+        double angebotPreis = Double.parseDouble(request.getParameter("angebot_preis"));
+        
+        Angebot angebot = this.getRequestedAngebot(request);
 
+        if (angebotKategorie != null && !angebotKategorie.trim().isEmpty()) {
+            try {
+                angebot.setCategory(this.categoryBean.findById(Long.parseLong(angebotKategorie)));
+            } catch (NumberFormatException ex) {
+                // Ungültige oder keine ID mitgegeben
+            }
+        }
+        
+        angebot.setOwner(this.userBean.getCurrentUser());
+        angebot.setArt(angebotArt);
+        angebot.setTitel(angebotBezeichnung);
+        angebot.setBeschreibung(angebotBeschreibung);
+        angebot.setErstellungsDatum(new Date(System.currentTimeMillis()));
+        angebot.setPreisVorstellung(angebotPreis);
+        angebot.setArtDesPreises(angebotPreisArt); 
         // Datensatz speichern
         if (errors.isEmpty()) {
             this.angebotBean.saveNew(angebot);
@@ -118,7 +143,7 @@ public class AngebotEditServlet extends HttpServlet {
             formValues.setErrors(errors);
 
             HttpSession session = request.getSession();
-            session.setAttribute("task_form", formValues);
+            session.setAttribute("aufgabe_form", formValues);
 
             response.sendRedirect(request.getRequestURI());
         }
@@ -136,7 +161,7 @@ public class AngebotEditServlet extends HttpServlet {
             throws ServletException, IOException {
 
         // Datensatz löschen
-        Angebot angebot = this.getRequestedTask(request);
+        Angebot angebot = this.getRequestedAngebot(request);
         this.angebotBean.delete(angebot);
 
         // Zurück zur Übersicht
@@ -162,7 +187,7 @@ public class AngebotEditServlet extends HttpServlet {
         String angebotId = request.getPathInfo();
 
         if (angebotId == null) {
-            angebotId = "";
+            angebotId = " ";
         }
 
         angebotId = angebotId.substring(1);
@@ -191,7 +216,7 @@ public class AngebotEditServlet extends HttpServlet {
      * @param task Die zu bearbeitende Aufgabe
      * @return Neues, gefülltes FormValues-Objekt
      */
-    private FormValues createTaskForm(Angebot angebot) {
+    private FormValues createAngebotForm(Angebot angebot) {
         Map<String, String[]> values = new HashMap<>();
 
         values.put("task_owner", new String[]{
