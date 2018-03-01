@@ -107,16 +107,13 @@
                                 <c:out value="${angebot.art}"/>
                             </td>
                             <td>
-                                <fmt:formatNumber value="${angebot.preisVorstellung}" pattern="###.###E0" var="newdatevar" />
-                                <c:out value="${newdatevar}"/> 
+                                <c:out value="${angebot.preisVorstellung}"/> 
                             </td>
                             <td>
                                 <c:out value="${angebot.artDesPreises}"/>
                             </td>
                             <td>
-                                <fmt:parseDate pattern="yyyy-MM-dd HH:mm:ss.SSS" value="${angebot.erstellungsDatum}" var="parsedDate" />
-                                <fmt:formatDate value="${parsedDate}" pattern="yyyy-MM-dd" />
-                                <c:out value="${parsedDate}"/>
+                                <c:out value="${angebot.erstellungsDatum}"/>
                             </td>
                         </tr>
                     </c:forEach>
