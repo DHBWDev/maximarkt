@@ -91,7 +91,7 @@
                     <c:forEach items="${angebote}" var="angebot">
                         <tr>
                             <td>
-                                <a href="<c:url value="/app/angebote/${angebot.id}/"/>">
+                                <a href="<c:url value="/app/angebot/${angebot.id}/"/>">
                                     <c:out value="${angebot.titel}"/>
                                 </a>
                             </td>

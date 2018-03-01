@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
  * Servlet für die Startseite bzw. jede Seite, die eine Liste der Aufgaben
  * zeigt.
  */
-@WebServlet(urlPatterns = {"/app/tasks/"})
+@WebServlet(urlPatterns = {"/app/angebote/"})
 public class AngebotListServlet extends HttpServlet {
 
     @EJB
