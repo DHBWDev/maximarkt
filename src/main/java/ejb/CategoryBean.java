@@ -33,4 +33,12 @@ public class CategoryBean extends EntityBean<Category, Long> {
     public List<Category> findAllSorted() {
         return this.em.createQuery("SELECT c FROM Category c ORDER BY c.name").getResultList();
     }
+
+    public Category findByName(String name) {
+        if (name == null) {
+            return null;
+        }
+        return this.em.find(Category.class, name);
+    }
+
 }

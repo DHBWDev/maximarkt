@@ -51,11 +51,11 @@
                 </c:forEach>
             </select>
 
-            <select name="search_status">
-                <option value="">Alle Stati</option>
+            <select name="search_art">
+                <option value="">Alle Typen</option>
 
                 <c:forEach items="${arten}" var="art">
-                    <option value="${art}" ${param.search_art == status ? 'selected' : ''}>
+                    <option value="${art}" ${param.search_art == art ? 'selected' : ''}>
                         <c:out value="${art}"/>
                     </option>
                 </c:forEach>
@@ -91,7 +91,7 @@
                     <c:forEach items="${angebote}" var="angebot">
                         <tr>
                             <td>
-                                <a href="<c:url value="/app/angebote/${angebot.id}/"/>">
+                                <a href="<c:url value="/app/angebot/${angebot.id}/"/>">
                                     <c:out value="${angebot.titel}"/>
                                 </a>
                             </td>

@@ -17,6 +17,7 @@ import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import jpa.AngebotsTyp;
 
 /**
  * Einfache EJB mit den üblichen CRUD-Methoden für Aufgaben
@@ -40,7 +41,7 @@ public class AngebotBean extends EntityBean<Angebot, Long> {
      * @param status Status (optional)
      * @return Liste mit den gefundenen Aufgaben
      */
-    public List<Angebot> search(String search, Category category, String angebotsart) {
+    public List<Angebot> search(String search, Category category, AngebotsTyp angebotstyp) {
         // Hilfsobjekt zum Bauen des Query
         CriteriaBuilder cb = this.em.getCriteriaBuilder();
         
@@ -63,8 +64,8 @@ public class AngebotBean extends EntityBean<Angebot, Long> {
         }
         
         // WHERE t.status = :status
-        if (angebotsart != null) {
-            query.where(cb.equal(from.get("angebotsart"), angebotsart));
+        if (angebotstyp != null) {
+            query.where(cb.equal(from.get("art"), angebotstyp));
         }
         
         return em.createQuery(query).getResultList();

@@ -13,7 +13,7 @@ import ejb.CategoryBean;
 import ejb.AngebotBean;
 import jpa.Category;
 import jpa.Angebot;
-import jpa.TaskStatus;
+import jpa.AngebotsTyp;
 import java.io.IOException;
 import java.util.List;
 import javax.ejb.EJB;
@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
  * Servlet für die Startseite bzw. jede Seite, die eine Liste der Aufgaben
  * zeigt.
  */
-@WebServlet(urlPatterns = {"/app/tasks/"})
+@WebServlet(urlPatterns = {"/app/angebote/"})
 public class AngebotListServlet extends HttpServlet {
 
     @EJB
@@ -39,22 +39,22 @@ public class AngebotListServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
 
         // Verfügbare Kategorien und Stati für die Suchfelder ermitteln
         request.setAttribute("categories", this.categoryBean.findAllSorted());
-        request.setAttribute("statuses", TaskStatus.values());
+        request.setAttribute("arten", AngebotsTyp.values());
 
         // Suchparameter aus der URL auslesen
         String searchText = request.getParameter("search_text");
         String searchCategory = request.getParameter("search_category");
         String searchArt = request.getParameter("search_art");
         
-        String[] arten = {"Biete", "Suche"};
         
-        request.setAttribute("arten", arten);
+        
         // Anzuzeigende Aufgaben suchen
         Category category = null;
-        
+        AngebotsTyp angebotstyp = null;
 
         if (searchCategory != null) {
             try {
@@ -64,9 +64,16 @@ public class AngebotListServlet extends HttpServlet {
             }
         }
         
+        if (searchArt != null) {
+            try {
+                angebotstyp = AngebotsTyp.valueOf(searchArt);
+            } catch (IllegalArgumentException ex) {
+                angebotstyp = null;
+            }
+        }
         
 
-        List<Angebot> angebote = this.angebotBean.search(searchText, category, searchArt);
+        List<Angebot> angebote = this.angebotBean.search(searchText, category, angebotstyp);
         request.setAttribute("angebote", angebote);
         
 

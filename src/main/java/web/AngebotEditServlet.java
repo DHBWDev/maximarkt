@@ -14,7 +14,7 @@ import ejb.AngebotBean;
 import ejb.UserBean;
 import ejb.ValidationBean;
 import jpa.Angebot;
-import jpa.TaskStatus;
+import jpa.AngebotsTyp;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
@@ -134,8 +134,7 @@ public class AngebotEditServlet extends HttpServlet {
         // Weiter zur nächsten Seite
         if (errors.isEmpty()) {
             // Keine Fehler: Startseite aufrufen
-            response.sendRedirect(WebUtils.appUrl(request, "/app/tasks/"));
-            
+            response.sendRedirect(WebUtils.appUrl(request, "/app/angebote/"));           
         } else {
             // Fehler: Formuler erneut anzeigen
             FormValues formValues = new FormValues();
@@ -165,7 +164,7 @@ public class AngebotEditServlet extends HttpServlet {
         this.angebotBean.delete(angebot);
 
         // Zurück zur Übersicht
-        response.sendRedirect(WebUtils.appUrl(request, "/app/angebot/"));
+        response.sendRedirect(WebUtils.appUrl(request, "/app/angebote/"));
     }
 
     /**
