@@ -12,6 +12,7 @@
 <%@taglib tagdir="/WEB-INF/tags/templates" prefix="template"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <template:base>
     <jsp:attribute name="title">
@@ -30,7 +31,7 @@
         <div class="menuitem">
             <a href="<c:url value="/app/categories/"/>">Kategorien bearbeiten</a>
         </div>
-        
+
         <div class="menuitem">
             <a href="<c:url value="/app/user/"/>">Benutzer bearbeiten</a>
         </div>
@@ -75,7 +76,7 @@
             </c:when>
             <c:otherwise>
                 <jsp:useBean id="utils" class="web.WebUtils"/>
-                
+
                 <table>
                     <thead>
                         <tr>
@@ -105,15 +106,18 @@
                                 <c:out value="${angebot.art}"/>
                             </td>
                             <td>
-                                <c:out value="${angebot.preisVorstellung}"/>
+                                <c:out value="${angebot.preisVorstellung}"/>                      
                             </td>
                             <td>
                                 <c:out value="${angebot.artDesPreises}"/>
                             </td>
                             <td>
-                                <fmt:parseDate pattern="yyyy-MM-dd HH:mm:ss.SSS" value="${angebot.erstellungsDatum}" var="parsedDate" />
-                                <fmt:formatDate value="${parsedDate}" pattern="yyyy-MM-dd" />
-                                <c:out value="${parsedDate}"/>
+                                
+                                
+                                
+                                
+                                <!-- utils.formatDate(angebot.erstellungsDatum) -->
+                                <c:out value="${angebot.erstellungsDatum}"/>
                             </td>
                         </tr>
                     </c:forEach>

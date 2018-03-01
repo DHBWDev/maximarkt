@@ -93,7 +93,7 @@
                         <option>Verhandlungsbasis</option>
                         <option>Sonstiges</option>
                     </select>
-                    <input name="angebot_preis" type="number" value="${angebot_form.values["angebot_preis"][0]}">
+                    <input name="angebot_preis" type="number" min="0" step="0.01" data-number-to-fixed="2" maxlength="100000" value="${angebot_form.values["angebot_preis"][0]}">
                 </div>
 
                 <%-- Button zum Abschicken --%>

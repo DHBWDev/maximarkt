@@ -21,7 +21,10 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.ManyToMany;
 import javax.persistence.TableGenerator;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
@@ -39,18 +42,22 @@ public class Angebot implements Serializable {
     
     @NotNull(message = "Die Art darf nicht leer sein.")
     private String art = "";
-    @NotNull(message = "Der Titel darf nicht leer sein.")
+    
+    @NotNull(message = "Die Bezeichnung darf nicht leer sein.")
+    @Size(min = 1, max = 50, message = "Der Titel muss zwischen ein und 50 Zeichen lang sein.")
     private String titel = "";
 
     @Lob
     @NotNull(message = "Die Beschreibung darf nicht leer sein.")
-    @Size(min = 1, max = 50, message = "Die Bezeichnung muss zwischen ein und 50 Zeichen lang sein.")
     private String beschreibung = "";
 
     private Date erstellungsDatum = null;
 
-    @NotNull(message = "Der Preis darf nicht leer sein.")
-    private double preisVorstellung = 0;
+    
+    //@Pattern(regexp = "/^\\d+(\\.|,)?\\d{0,2}")
+    //@Digits(integer=6, fraction=2)
+    //@Min(0)
+    private Double preisVorstellung = null;
     
     @NotNull(message = "Die Preisart darf nicht leer sein.")
     private String artDesPreises = "";
