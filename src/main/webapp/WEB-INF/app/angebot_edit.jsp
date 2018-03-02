@@ -49,7 +49,7 @@
                     <select name="task_category">
                         <option value="">Keine Kategorie</option>
                         <c:forEach items="${categories}" var="category">
-                            <option value="${category.id}"${task_form.values["task_category"][0] == category.id ? 'selected' : ''}>
+                            <option value="${category.id}"${task_form.values["task_category"][0] == category.id ? 'selected' : ''} ${readonly ? 'disabled="readonly"' : ''}>
                                 <c:out value="${category.name}" />
                             </option>
                         </c:forEach>
@@ -63,7 +63,7 @@
                 <div class="side-by-side">
                     <select name="angebot_art">
                         <c:forEach items="${arten}" var="art">
-                            <option value="${art}" ${angebot_form.values["angebot_art"][0] == art ? 'selected' : ''}>
+                            <option value="${art}"  ${readonly ? 'disabled="readonly"' : ''} ${angebot_form.values["angebot_art"][0] == art ? 'selected' : ''}>
                                 <c:out value="${art.label}"/>
                             </option>
                          </c:forEach>
@@ -75,16 +75,14 @@
                     <span class="required">*</span>
                 </label>
                 <div class="side-by-side">
-                    <input type="text" name="angebot_bezeichnung" value="${angebot_form.values["angebot_bezeichnung"][0]}">
+                    <input type="text" name="angebot_bezeichnung" ${readonly ? 'readonly="readonly"' : ''} value="${angebot_form.values["angebot_bezeichnung"][0]}">
                 </div>
 
                 <label for="angebot_beschreibung">
                     Beschreibung:
                 </label>
                 <div class="side-by-side">
-                    <textarea name="angebot_beschreibung">
-                        ${angebot_form.values["angebot_beschreibung"][0]}
-                    </textarea>
+                    <textarea name="angebot_beschreibung" cols="35" rows="4" ${readonly ? 'readonly="readonly"' : ''}>${angebot_form.values["angebot_beschreibung"][0]}</textarea>
                 </div>
 
                 <label for="angebot_preis">
@@ -93,28 +91,31 @@
                 <div class="side-by-side">
                     <select name="angebot_preisart">
                         <c:forEach items="${preisarten}" var="art">
-                            <option value="${art}" ${angebot_form.values["angebot_preisart"][0] == art ? 'selected' : ''}>
+                            <option value="${art}" ${angebot_form.values["angebot_preisart"][0] == art ? 'selected' : ''}  ${readonly ? 'disabled="readonly"' : ''}>
                                 <c:out value="${art.label}"/>
                             </option>
                          </c:forEach>
                     </select>
-                    <input name="angebot_preis" type="number" min="0" step="0.01" data-number-to-fixed="2" maxlength="100000" value="${angebot_form.values["angebot_preis"][0]}">
+                    <input name="angebot_preis" type="number" min="0" step="0.01" data-number-to-fixed="2" maxlength="100000" ${readonly ? 'readonly="readonly"' : ''} value="${angebot_form.values["angebot_preis"][0]}">
                 </div>
 
                 <%-- Button zum Abschicken --%>
-                <div class="side-by-side">
-                    <button class="icon-pencil" type="submit" name="action" value="save">
-                        Sichern
-                    </button>
 
-                    <c:if test="${edit}">
-                        <button class="icon-trash" type="submit" name="action" value="delete">
-                            Löschen
+                <c:if test="${!readonly}">
+                    <div class="side-by-side">
+                        <button class="icon-pencil" type="submit" name="action" value="save">
+                            Sichern
                         </button>
-                    </c:if>
-                </div>
-            </div>
 
+                        <c:if test="${edit}">
+                            <button class="icon-trash" type="submit" name="action" value="delete">
+                                Löschen
+                            </button>
+                        </c:if>
+                    </div>
+                </c:if>
+            </div>
+                
             <%-- Fehlermeldungen --%>
             <c:if test="${!empty angebot_form.errors}">
                 <ul class="errors">
@@ -123,6 +124,21 @@
                     </c:forEach>
                 </ul>
             </c:if>
+                
+            <label>
+                Angelegt am:
+            </label>     
+            <div>${angebot_form.values["angebot_erstellungsDatum"][0]}</div>
+            
+            <label>
+                Anbieter:
+            </label>     
+            <div>${angebot_form.values["angebot_ownername"][0]}</div>
+            <div>${angebot_form.values["angebot_owneranschrift"][0]}</div>
+            <div>${angebot_form.values["angebot_ownerortplz"][0]}</div>
+            <div>${angebot_form.values["angebot_ownermobil"][0]}</div>
+            <div>${angebot_form.values["angebot_owneremail"][0]}</div>
+            
         </form>
     </jsp:attribute>
 </template:base>

@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -61,13 +62,18 @@ public class AngebotEditServlet extends HttpServlet {
         request.setAttribute("categories", this.categoryBean.findAllSorted());
         request.setAttribute("arten", AngebotsTyp.values());
         request.setAttribute("preisarten", PreisArt.values());
-   
+        
         // Zu bearbeitende Aufgabe einlesen
         HttpSession session = request.getSession();
 
         Angebot angebot = this.getRequestedAngebot(request);
         request.setAttribute("edit", angebot.getId() != 0);
-                                
+        
+        //USER Prüfung              
+        if (!angebot.getOwner().getUsername().equals(this.userBean.getCurrentUser().getUsername())){
+           request.setAttribute("readonly", true); 
+        }
+
         if (session.getAttribute("angebot_form") == null) {
             // Keine Formulardaten mit fehlerhaften Daten in der Session,
             // daher Formulardaten aus dem Datenbankobjekt übernehmen
@@ -120,7 +126,7 @@ public class AngebotEditServlet extends HttpServlet {
         String angebotKategorie = request.getParameter("angebot_category");
         String angebotArt = request.getParameter("angebot_art");
         String angebotBezeichnung = request.getParameter("angebot_bezeichnung");
-        String angebotBeschreibung = request.getParameter("angebot_beschreibung");       
+        String angebotBeschreibung = request.getParameter("angebot_beschreibung").trim();       
         String angebotPreisArt = request.getParameter("angebot_preisart");   
         String angebotPreis = request.getParameter("angebot_preis");
         
@@ -150,12 +156,9 @@ public class AngebotEditServlet extends HttpServlet {
             errors.add("Die Bezeichnung darf nicht leer sein.");
         }
         
-       
-        
         angebot.setOwner(this.userBean.getCurrentUser());
         angebot.setArt(angebotArt);
         angebot.setBeschreibung(angebotBeschreibung);
-        angebot.setErstellungsDatum(new Date(System.currentTimeMillis()));
         angebot.setArtDesPreises(angebotPreisArt); 
         
         this.validationBean.validate(angebot, errors);
@@ -212,6 +215,7 @@ public class AngebotEditServlet extends HttpServlet {
         // Zunächst davon ausgehen, dass ein neuer Satz angelegt werden soll
         Angebot angebot = new Angebot();
         angebot.setOwner(this.userBean.getCurrentUser());
+        angebot.setErstellungsDatum(new Date(System.currentTimeMillis()));
         //task.setDueDate(new Date(System.currentTimeMillis()));
         //task.setDueTime(new Time(System.currentTimeMillis()));
 
@@ -254,7 +258,28 @@ public class AngebotEditServlet extends HttpServlet {
         values.put("angebot_owner", new String[]{
             angebot.getOwner().getUsername()
         });
-
+        
+        values.put("angebot_ownername", new String[]{
+            angebot.getOwner().getName()
+        });
+        
+        values.put("angebot_owneranschrift", new String[]{
+            angebot.getOwner().getAnschrift()
+        });
+        
+       
+        values.put("angebot_ownerortplz", new String[]{
+            angebot.getOwner().getPlz() + angebot.getOwner().getOrt()
+        });
+        
+        values.put("angebot_ownermobil", new String[]{
+            angebot.getOwner().getTelefonnummer()
+        });
+        
+         values.put("angebot_owneremail", new String[]{
+            angebot.getOwner().getEmail()
+        });
+        
         if (angebot.getCategory() != null) {
             values.put("angebot_category", new String[]{
                 angebot.getCategory().toString()
@@ -270,7 +295,7 @@ public class AngebotEditServlet extends HttpServlet {
         });
 
         values.put("angebot_beschreibung", new String[]{ 
-            angebot.getBeschreibung()
+            angebot.getBeschreibung().trim()
         });
 
         values.put("angebot_preisart", new String[]{ 
@@ -279,6 +304,12 @@ public class AngebotEditServlet extends HttpServlet {
 
         values.put("angebot_preis", new String[]{ 
             Double.toString(angebot.getPreisVorstellung())
+        });
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yy HH:mm:ss");
+            
+        values.put("angebot_erstellungsDatum", new String[]{ 
+            sdf.format(angebot.getErstellungsDatum())
         });
 
         FormValues formValues = new FormValues();
