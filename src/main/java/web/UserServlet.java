@@ -83,7 +83,7 @@ public class UserServlet extends HttpServlet {
         if (errors.isEmpty()) {
             this.userBean.update(user);
             // Keine Fehler: Startseite aufrufen
-            response.sendRedirect(WebUtils.appUrl(request, "/app/tasks/"));
+            response.sendRedirect(WebUtils.appUrl(request, "/app/angebote/"));
         } else {
             //Fehler: Formuler erneut anzeigen
             FormValues formValues = new FormValues();
