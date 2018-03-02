@@ -13,6 +13,8 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 
 
 <template:base>
@@ -107,13 +109,14 @@
                                 <c:out value="${angebot.art}"/>
                             </td>
                             <td>
-                                <c:out value="${angebot.preisVorstellung}"/> 
+                                <fmt:formatNumber value="${angebot.preisVorstellung}" type="currency" currencySymbol=""/>
+                                <c:out value="€"/>
                             </td>
                             <td>
                                 <c:out value="${angebot.artDesPreises}"/>
-                            </td>
+                            </td>                                 
                             <td>
-                                <c:out value="${angebot.erstellungsDatum}"/>
+                                <fmt:formatDate pattern = "HH:mm dd.MM.yyyy" value = "${angebot.erstellungsDatum}"/>
                             </td>
                         </tr>
                     </c:forEach>
