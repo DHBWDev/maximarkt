@@ -44,9 +44,13 @@ public class UserServlet extends HttpServlet {
         request.setAttribute("user", this.userBean.getCurrentUser());
         
         request.setAttribute("modify_email", this.userBean.getCurrentUser().getEmail());
+        
 
         // Anfrage an die JSP weiterleiten
         request.getRequestDispatcher("/WEB-INF/login/modify.jsp").forward(request, response);
+        
+        HttpSession session = request.getSession();
+        session.removeAttribute("modify_form");
     }
     
     @Override

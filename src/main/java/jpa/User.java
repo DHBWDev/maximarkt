@@ -64,16 +64,16 @@ public class User implements Serializable {
     @Column(name = "GROUPNAME")
     List<String> groups = new ArrayList<>();
     
-    @NotNull(message = "Der Name darf nicht leer sein.")
+    @Size(min = 1, max = 70, message = "Der Name muss zwischen einem und 70 Zeichen lang sein.")
     private String name = "";
     
-    @NotNull(message = "Die Anschrift darf nicht leer sein.")
+    @Size(min = 1, max = 100, message = "Die Anschrift muss zwischen einem und 100 Zeichen lang sein.")
     private String anschrift = "";
     
-    @NotNull(message = "Die Postleitzahl darf nicht leer sein.")
+    @Size(min = 1, max = 20, message = "Die Postleitzahl muss zwischen einem und 20 Zeichen lang sein.")
     private String plz = "";
     
-    @NotNull(message = "Der Ort darf nicht leer sein.")
+    @Size(min = 1, max = 40, message = "Die Ort muss zwischen einem und 40 Zeichen lang sein.")
     private String ort = "";
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
@@ -83,7 +83,7 @@ public class User implements Serializable {
     @Pattern(regexp = "^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$", message="Bitte geben Sie eine gültige Mailadresse an.")
     private String email = "";
     
-    @NotNull(message = "Die Telefonnummer darf nicht leer sein.")
+    @Size(min = 1, max = 25, message = "Die Telefonnummer muss zwischen einem und 25 Zeichen lang sein.")
     private String telefonnummer = "";
 
     //<editor-fold defaultstate="collapsed" desc="Konstruktoren">
