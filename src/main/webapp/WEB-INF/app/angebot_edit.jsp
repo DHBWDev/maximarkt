@@ -47,7 +47,7 @@
                 
                 <div class="side-by-side">
                     <select name="angebot_category">
-                        <option value="">Keine Kategorie</option>
+                        <option value="" ${readonly ? 'disabled="readonly"' : ''}>Keine Kategorie</option>
                         <c:forEach items="${categories}" var="category">
                             <option value="${category.id}" ${readonly ? 'disabled="readonly"' : ''} ${angebot_form.values["angebot_category"][0] == category.id ? 'selected' : ''}>
                                 <c:out value="${category.name}" />
