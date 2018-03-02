@@ -91,12 +91,12 @@
                 <div class="side-by-side">
                     <select name="angebot_preisart">
                         <c:forEach items="${preisarten}" var="preisart">
-                            <option value="${preisart}" ${angebot_form.values["angebot_preisart"][0] == art ? 'selected' : ''}  ${readonly ? 'disabled="readonly"' : ''}>
+                            <option value="${preisart}" ${readonly ? 'disabled="readonly"' : ''} ${angebot_form.values["angebot_preisart"][0] == preisart ? 'selected' : ''}>
                                 <c:out value="${preisart.label}"/>
                             </option>
                          </c:forEach>
                     </select>
-                    <input name="angebot_preis" type="number" min="0" step="0.01" data-number-to-fixed="2" maxlength="100000" ${readonly ? 'readonly="readonly"' : ''} value="${angebot_form.values["angebot_preis"][0]}">
+                    <input name="angebot_preis" type="number" min="0" step="0.01" data-number-to-fixed="2" maxlength="100000"  ${readonly ? 'readonly="readonly"' : ''} value="${angebot_form.values["angebot_preis"][0]}">
                 </div>
 
                 <%-- Button zum Abschicken --%>

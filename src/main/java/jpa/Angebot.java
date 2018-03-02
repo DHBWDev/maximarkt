@@ -38,21 +38,22 @@ public class Angebot implements Serializable {
     private long id;
     
     @NotNull(message = "Die Art darf nicht leer sein.")
+    @Size(min = 5, message = "Bitte geben Sie die Art des Angebots an.")
     private String art = "";
+    
     @NotNull(message = "Der Titel darf nicht leer sein.")
+    @Size(min = 1, message = "Die Bezeichnung muss mindestens ein Zeichen lang sein.")
     private String titel = "";
 
     @Lob
     @NotNull(message = "Die Beschreibung darf nicht leer sein.")
-    //@Size(min = 1, max = 50, message = "Die Beschreibung muss zwischen ein und 50 Zeichen lang sein.")
+    @Size(min = 5, message = "Die Beschreibung muss mindestens fünf Zeichen lang sein.")
     private String beschreibung = "";
 
     private Date erstellungsDatum = null;
 
-    @NotNull(message = "Der Preis darf nicht leer sein.")
     private double preisVorstellung = 0;
     
-    @NotNull(message = "Die Preisart darf nicht leer sein.")
     private String artDesPreises = "";
     
     @ManyToOne

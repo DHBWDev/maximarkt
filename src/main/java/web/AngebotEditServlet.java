@@ -134,15 +134,7 @@ public class AngebotEditServlet extends HttpServlet {
             }
         }
 
-        if ((!angebotPreis.isEmpty()) && (angebotPreis != null)) {
-            double d = Double.parseDouble(angebotPreis) + 0.00;
-            d = Math.round(100.0 * d) / 100.0;
-            angebot.setPreisVorstellung(d);
-            //angebot.setPreisVorstellung(Double.parseDouble(angebotPreis));
-        } else {
-            errors.add("Der Preis darf nicht leer sein.");
-        }
-
+        angebot.setPreisVorstellung(Double.parseDouble(angebotPreis));
         angebot.setOwner(this.userBean.getCurrentUser());
         angebot.setArt(angebotArt);
         angebot.setBeschreibung(angebotBeschreibung);
