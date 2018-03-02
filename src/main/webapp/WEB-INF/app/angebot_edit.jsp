@@ -43,13 +43,13 @@
 
                 <%-- Eingabefelder --%>
 
-                <label for="task_category">Kategorie:</label>
+                <label for="angebot_category">Kategorie:</label>
                 
                 <div class="side-by-side">
-                    <select name="task_category">
+                    <select name="angebot_category">
                         <option value="">Keine Kategorie</option>
                         <c:forEach items="${categories}" var="category">
-                            <option value="${category.id}"${task_form.values["task_category"][0] == category.id ? 'selected' : ''} ${readonly ? 'disabled="readonly"' : ''}>
+                            <option value="${category.id}" ${readonly ? 'disabled="readonly"' : ''} ${angebot_form.values["angebot_category"][0] == category.id ? 'selected' : ''}>
                                 <c:out value="${category.name}" />
                             </option>
                         </c:forEach>
@@ -90,9 +90,9 @@
                 </label>   
                 <div class="side-by-side">
                     <select name="angebot_preisart">
-                        <c:forEach items="${preisarten}" var="art">
-                            <option value="${art}" ${angebot_form.values["angebot_preisart"][0] == art ? 'selected' : ''}  ${readonly ? 'disabled="readonly"' : ''}>
-                                <c:out value="${art.label}"/>
+                        <c:forEach items="${preisarten}" var="preisart">
+                            <option value="${preisart}" ${angebot_form.values["angebot_preisart"][0] == art ? 'selected' : ''}  ${readonly ? 'disabled="readonly"' : ''}>
+                                <c:out value="${preisart.label}"/>
                             </option>
                          </c:forEach>
                     </select>
