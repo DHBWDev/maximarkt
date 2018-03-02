@@ -25,7 +25,7 @@
     </jsp:attribute>
 
     <jsp:attribute name="menu">
- 
+         <a href="<c:url value="/app/angebote/"/>">Übersicht</a>
     </jsp:attribute>
 
     <jsp:attribute name="content">

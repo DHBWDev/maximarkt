@@ -150,12 +150,6 @@ public class AngebotEditServlet extends HttpServlet {
             errors.add("Der Preis darf nicht leer sein.");
         }
         
-        if (angebotBezeichnung != null) {
-            angebot.setTitel(angebotBezeichnung);
-        } else {
-            errors.add("Die Bezeichnung darf nicht leer sein.");
-        }
-        
         angebot.setOwner(this.userBean.getCurrentUser());
         angebot.setArt(angebotArt);
         angebot.setBeschreibung(angebotBeschreibung);
